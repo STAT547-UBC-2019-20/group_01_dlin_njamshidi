@@ -1,8 +1,3 @@
-# group_01_dlin_njamshidi
+# Group 1: Medical Expenses
 
-Change in change1 branch of my fork
-
-Here is my change- Nima  
-
-
-
+Milestone 1: https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone1.html
