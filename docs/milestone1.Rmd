@@ -74,12 +74,16 @@ summary(costs)
 
 ### Correllogram
 
-According to the correllogram below, age and charges has the strongest positive correlation of 0.3. The second strongest positive correlation is 0.2, between BMI and charges.
+After using dummy variables for sex, smoker, and region, according to the correllogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
 
 ```{r correllogram}
-# remove the factors to do correlation
 costs_correlations <- costs %>%
-  select(-sex,-smoker, -region) %>%
+  mutate(sex = as.numeric(sex),
+         smoker = as.numeric(fct_relevel(smoker,"no"))
+         ) %>% 
+  cbind(  as.tibble(psych::dummy.code(costs$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
+  select(-region,-charges) %>%
+  cbind(charges = costs$charges) %>% 
   cor()
 
 costs_correlations <- round(costs_correlations,2)
@@ -154,7 +158,7 @@ Does having an increased BMI increase your insurance costs? What about age? Numb
 Are certain areas of the USA associated with higher insurance costs?
 
 ## Plan of Action
-Our plan of action is to perform a linear regression analysis and plot the regression line and relevant variables. For that we are going to use all the variables except the children. These variables are needed to be normalaized before performing the regression analysis.  
+Our plan of action is to perform a linear regression analysis and plot the regression line and relevant variables. The variables are needed to be normalaized before performing the regression analysis.
 
 ## References
 1. Medical Costs Dataset - https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41
