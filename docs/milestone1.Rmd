@@ -1,6 +1,6 @@
 ---
 title: "Medical Expenses"
-author: "Diana Lin"
+author: "Diana Lin & Nima Jamshidi"
 date: "29/02/2020"
 output: 
   html_document:
@@ -18,6 +18,8 @@ library(here)
 library(corrplot)
 library(scales)
 library(glue)
+library(hablar)
+library(psych)
 ```
 
 ## Introduction
@@ -159,7 +161,7 @@ Does having an increased BMI increase your insurance costs? What about age? Numb
 Are certain areas of the USA associated with higher insurance costs?
 
 ## Plan of Action
-Our plan of action is to perform a linear regression analysis and plot the regression line and relevant variables. The variables are needed to be normalaized before performing the regression analysis.
+Our plan of action is to perform a linear regression analysis and plot the regression line and relevant variables. The variables need to be normalized before performing the regression analysis.
 
 ## References
 1. Medical Costs Dataset - https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41
