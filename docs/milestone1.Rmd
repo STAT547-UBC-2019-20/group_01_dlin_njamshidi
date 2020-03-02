@@ -72,11 +72,11 @@ Here is a summary of the dataset, and the values of each variable:
 summary(costs)
 ```
 
-### Correllogram
+### Correlogram
 
-After using dummy variables for sex, smoker, and region, according to the correllogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
+After using dummy variables for sex, smoker, and region, according to the correlogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
 
-```{r correllogram}
+```{r correlogram}
 costs_correlations <- costs %>%
   mutate(sex = as.numeric(sex),
          smoker = as.numeric(fct_relevel(smoker,"no"))
@@ -101,6 +101,7 @@ While the data between regions and sex does not appear to vary much, the smokers
 ```{r facet}
 ggplot(costs, aes(x=bmi, y=charges, colour = smoker)) + 
   geom_point() +
+  scale_color_manual(values = c("#E7B800" , "#52854C"))+
   theme_bw() +
   facet_grid(sex ~ region, labeller = label_both) +
   labs(x = 'BMI',
@@ -110,7 +111,7 @@ ggplot(costs, aes(x=bmi, y=charges, colour = smoker)) +
 ```
 
 ### Histogram
-Looking at the dataset, there appears to be more beneficiaries in the 20-60 age range.
+Looking at the dataset, there appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket.
 ```{r bar chart}
 costs %>% 
   mutate(age_range = case_when(
