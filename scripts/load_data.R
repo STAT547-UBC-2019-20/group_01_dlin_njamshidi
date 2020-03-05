@@ -26,7 +26,7 @@ main <- function(url) {
     )
   )
   
-  write_csv(costs, here("data","raw_data","data.csv"))
+  write_csv(costs, here("data","raw","data.csv"))
   
   print("The script has executed successfully!")
 }
