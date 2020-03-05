@@ -30,5 +30,4 @@ main <- function(url) {
   
   print("The script has executed successfully!")
 }
-
 main(opt$data_to_url)
