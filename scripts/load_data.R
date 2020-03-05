@@ -26,9 +26,9 @@ main <- function(url) {
     )
   )
   
-  print("The script has executed successfully!")
-  
   write_csv(costs, here("data","raw_data","data.csv"))
+  
+  print("The script has executed successfully!")
 }
 
 main(opt$data_to_url)
