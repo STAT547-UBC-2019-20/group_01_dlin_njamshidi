@@ -18,6 +18,8 @@ library(here)
 library(corrplot)
 library(scales)
 library(glue)
+library(psych)
+library(hablar)
 library(hablar)
 library(psych)
 ```
@@ -76,6 +78,8 @@ summary(costs)
 
 ### Correlogram
 
+In this section we are inspecting the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
+In order to analyze correlation between variables, the ones that are categorical with two categories, are translated into binery vectors. The only categorical variable with more than two categories, is region. We split this variable into four different binery vectors, each indicating if the sample data has category (1) or not (0).
 After using dummy variables for sex, smoker, and region, according to the correlogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
 
 ```{r correlogram}
@@ -83,7 +87,7 @@ costs_correlations <- costs %>%
   mutate(sex = as.numeric(sex),
          smoker = as.numeric(fct_relevel(smoker,"no"))
          ) %>% 
-  cbind(  as.tibble(psych::dummy.code(costs$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
+  cbind(  as_tibble(psych::dummy.code(costs$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
   select(-region,-charges) %>%
   cbind(charges = costs$charges) %>% 
   cor()
@@ -99,7 +103,7 @@ corrplot(costs_correlations,
 
 ### Faceted Plot
 
-While the data between regions and sex does not appear to vary much, the smokers vs nonsmokers of each facet appear to cluster together, with the non-smokers having an overall lower medical cost.
+Here we want to explore the data to see if there is any cluster of data points. While the data between regions and sex does not appear to vary much, the smokers vs nonsmokers of each facet appear to cluster together, with the non-smokers having an overall lower medical cost.
 ```{r facet}
 ggplot(costs, aes(x=bmi, y=charges, colour = smoker)) + 
   geom_point() +
@@ -113,6 +117,8 @@ ggplot(costs, aes(x=bmi, y=charges, colour = smoker)) +
 ```
 
 ### Histogram
+
+How is the distribution of sex among different age groups?
 Looking at the dataset, there appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket.
 ```{r bar chart}
 costs %>% 
@@ -134,6 +140,7 @@ costs %>%
 ```
 
 ### Stacked Bar Chart
+How about the distribution of sex among the regions?
 This plot shows the distribution of sex in each of the four regions. At a glance, the dataset looks very even when it comes to sex, but there are slightly more beneficiaries in the southeast.
 ```{r stack}
 costs %>%
