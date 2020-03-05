@@ -10,13 +10,16 @@ library(docopt)
 library(here)
 library(psych)
 library(hablar)
+library(glue)
 
 opt <- docopt(doc)
 
 main <- function(path,name) {
+
+  full_path <- glue("{path}/{name}.csv")  
   
   data <- read_csv(
-    path,
+    full_path,
     col_types = cols(
       age = col_integer(),
       sex = readr::col_factor(),
@@ -32,11 +35,11 @@ main <- function(path,name) {
     mutate(sex = as.numeric(sex),
            smoker = as.numeric(fct_relevel(smoker,"no"))
     ) %>% 
-    cbind(  as_tibble(psych::dummy.code(costs$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
+    cbind(  as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
     select(-charges) %>%
-    cbind(charges = costs$charges)
+    cbind(charges = data$charges)
   
-  write_csv(data, glue("{path}/{name}.csv")
+  write_csv(data, glue("../data/processed/{name}.csv"))
   print("the data is successfully wrangled and saved.")
 }
 
