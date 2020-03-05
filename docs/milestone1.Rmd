@@ -1,6 +1,6 @@
 ---
 title: "Medical Expenses"
-author: "Diana Lin"
+author: "Diana Lin, Nima Jamshidi"
 date: "29/02/2020"
 output: 
   html_document:
