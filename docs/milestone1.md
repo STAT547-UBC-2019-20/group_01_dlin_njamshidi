@@ -1,6 +1,6 @@
 ---
 title: "Medical Expenses"
-author: "Diana Lin, Nima Jamshidi"
+author: "Diana Lin & Nima Jamshidi"
 date: "29/02/2020"
 output: 
   html_document:
@@ -135,6 +135,7 @@ ggplot(costs, aes(x=bmi, y=charges, colour = smoker)) +
 ![](milestone1_files/figure-html/facet-1.png)<!-- -->
 
 ### Histogram
+
 How is the distribution of sex among different age groups?
 Looking at the dataset, there appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket.
 
@@ -190,7 +191,7 @@ Does having an increased BMI increase your insurance costs? What about age? Numb
 Are certain areas of the USA associated with higher insurance costs?
 
 ## Plan of Action
-Our plan of action is to perform a linear regression analysis and plot the regression line and relevant variables. The variables are needed to be normalaized before performing the regression analysis.
+Our plan of action is to perform a linear regression analysis and plot the regression line and relevant variables. The variables need to be normalized before performing the regression analysis.
 
 ## References
 1. Medical Costs Dataset - https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41
