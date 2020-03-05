@@ -5,9 +5,9 @@
 
 Usage: load_data.R --data_to_url=<url_to_raw_data_file>" -> doc
 
-library(tidyverse)
-library(docopt)
-library(here)
+suppressMessages(library(tidyverse))
+suppressMessages(library(docopt))
+suppressMessages(library(here))
 
 # where are data is: https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv
 
@@ -25,6 +25,8 @@ main <- function(url) {
       charges = col_double()
     )
   )
+  
+  print("The script has executed successfully!")
   
   write_csv(costs, here("data","raw_data","data.csv"))
 }
