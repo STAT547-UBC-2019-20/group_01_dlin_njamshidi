@@ -3,14 +3,14 @@
 
 "This script creates a new data file including the dummy variables for the categorical variables.
 
-Usage: load_data.R --file_path=<path_to_raw_data_file> --filename=<file_name>" -> doc
+Usage: load_data.R --file_path=<path_to_raw_data_file> --filename=<output_file_name>" -> doc
 
-library(tidyverse)
-library(docopt)
-library(here)
-library(psych)
-library(hablar)
-library(glue)
+suppressMessages(library(tidyverse))
+suppressMessages(library(docopt))
+suppressMessages(library(here))
+suppressMessages(library(psych))
+suppressMessages(library(hablar))
+suppressMessages(library(glue))
 
 opt <- docopt(doc)
 
@@ -38,7 +38,7 @@ main <- function(path,name) {
     select(-charges) %>%
     cbind(charges = data$charges)
   
-  write_csv(data, glue("../data/processed/{name}.csv"))
+  write_csv(data, glue("../data/processed/{name}"))
   print("the data is successfully wrangled and saved.")
 }
 
