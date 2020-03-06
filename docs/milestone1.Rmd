@@ -20,8 +20,6 @@ library(scales)
 library(glue)
 library(psych)
 library(hablar)
-library(hablar)
-library(psych)
 ```
 
 ## Introduction
