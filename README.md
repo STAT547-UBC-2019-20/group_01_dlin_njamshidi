@@ -15,5 +15,5 @@ Rscript scripts/load_data.R --data_to_url=https://gist.github.com/meperezcuello/
 
 2. `process_data.R`
 ```
-Rscript process_data.R --file_path="../data/raw/data.csv" --filename="processed_data.csv"
+Rscript scripts/process_data.R --file_path="../data/raw/data.csv" --filename="processed_data.csv"
 ```
