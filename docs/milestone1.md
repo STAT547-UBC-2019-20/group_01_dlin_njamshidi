@@ -28,7 +28,7 @@ This dataset explains the medical insurance costs of a small sample of the USA p
 ```r
 # import the data 
 costs <- read_csv(
-  here("data", "raw_data", "Medical_Cost.csv"),
+  here("data", "raw", "Medical_Cost.csv"),
   col_types = cols(
     age = col_integer(),
     sex = readr::col_factor(),

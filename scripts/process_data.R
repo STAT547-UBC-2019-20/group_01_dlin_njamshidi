@@ -7,7 +7,6 @@ Usage: load_data.R --file_path=<path_to_raw_data_file> --filename=<output_file_n
 
 suppressMessages(library(tidyverse))
 suppressMessages(library(docopt))
-suppressMessages(library(here))
 suppressMessages(library(psych))
 suppressMessages(library(hablar))
 suppressMessages(library(glue))
