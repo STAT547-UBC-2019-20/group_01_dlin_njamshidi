@@ -35,11 +35,11 @@ main <- function(path,name) {
            smoker = as.numeric(fct_relevel(smoker,"no"))
     ) %>% 
     cbind(  as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
-    select(-charges) %>%
+    select(-region, -charges) %>%
     cbind(charges = data$charges)
   
-  write_csv(data, glue("../data/processed/{name}"))
-  print("the data is successfully wrangled and saved.")
+  write_csv(data, glue("data/processed/{name}"))
+  print("The data has been successfully wrangled and saved.")
 }
 
 
