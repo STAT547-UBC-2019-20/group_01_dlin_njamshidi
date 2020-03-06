@@ -16,10 +16,9 @@ opt <- docopt(doc)
 
 main <- function(path,name) {
 
-  full_path <- glue("{path}/{name}.csv")  
   
   data <- read_csv(
-    full_path,
+    path,
     col_types = cols(
       age = col_integer(),
       sex = readr::col_factor(),
