@@ -9,7 +9,7 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(docopt))
 suppressMessages(library(here))
 
-# where are data is: https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv
+# where our data is: https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv
 
 opt <- docopt(doc)
 
