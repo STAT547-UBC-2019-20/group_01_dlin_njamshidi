@@ -1,13 +1,13 @@
 ---
-title: "Medical Expenses"
+title: "Draft"
 author: "Nima Jamshidi & Diana Lin"
 date: "3/6/2020"
 output: 
+  pdf_document:
+    toc: true
   html_document:
     toc: true
     keep_md: true
-  pdf_document:
-    toc: true
   
 ---
 
@@ -15,14 +15,10 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r pkg, echo = FALSE, warning = FALSE, message = FALSE}
+
+```{r load, echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(here)
-library(corrplot)
-library(scales)
-library(glue)
-library(psych)
-library(hablar)
 library(knitr)
 ```
 
@@ -45,6 +41,7 @@ In order to answer the questions above we're planning to perform a linear regres
 
 This dataset explains the medical insurance costs of a small sample of the USA population. Each row corresponds to a beneficiary. Various metadata was recorded as well.
 
+
 ```{r load the data, echo=FALSE}
 # import the data 
 costs <- read_csv(
@@ -63,6 +60,7 @@ costs <- read_csv(
 
 The columns (except the last one) in this dataset correspond to metadata, where the last column is the monetary charges of medical insurance. Here are the possible values for each of the columns:
 
+
 Variable | Type | Description
 ---------|------|---------------
 Age | integer | the primary beneficiary's age in years
@@ -76,6 +74,7 @@ Charges | double | the monetary charges the beneficiary was billed by health ins
 ## Exploring the Dataset
 
 Here is a summary of the dataset, and the values of each variable:
+
 ```{r summary, echo=FALSE}
 options(knitr.kable.NA="")
 kable(summary(costs))
@@ -84,6 +83,7 @@ kable(summary(costs))
 
 Next, we want to inspect the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
 In order to analyze correlation between variables, the ones that are categorical with two categories, are translated into binery vectors. The only categorical variable with more than two categories, is region. We split this variable into four different binery vectors, each indicating if the sample data has category (1) or not (0).
+
 After using dummy variables for sex, smoker, and region, according to the correlogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
 
 <center>
@@ -129,11 +129,30 @@ This plot shows the distribution of sex in each of the four regions. At a glance
 
 
 
+
 ## Methods
+
+```{r methods}
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
 
 ## Results
 
+```{r results}
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
+
 ## Discussion
+
+```{r discussion}
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
+
+## Conclusion
+
+```{r conclusion}
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
 
 ## References
 1. Medical Costs Dataset - https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41

@@ -1,5 +1,5 @@
 ---
-title: "Medical Expenses"
+title: "Draft"
 author: "Nima Jamshidi & Diana Lin"
 date: "3/6/2020"
 output: 
@@ -8,8 +8,8 @@ output:
     keep_md: true
   pdf_document:
     toc: true
-  
 ---
+
 
 
 
@@ -36,7 +36,9 @@ This dataset explains the medical insurance costs of a small sample of the USA p
 
 
 
+
 The columns (except the last one) in this dataset correspond to metadata, where the last column is the monetary charges of medical insurance. Here are the possible values for each of the columns:
+
 
 Variable | Type | Description
 ---------|------|---------------
@@ -52,6 +54,7 @@ Charges | double | the monetary charges the beneficiary was billed by health ins
 
 Here is a summary of the dataset, and the values of each variable:
 
+
           age            sex           bmi           children     smoker           region       charges    
 ---  --------------  -----------  --------------  --------------  ---------  --------------  --------------
      Min.   :18.00   female:662   Min.   :15.96   Min.   :0.000   yes: 274   southwest:325   Min.   : 1122 
@@ -64,6 +67,7 @@ Here is a summary of the dataset, and the values of each variable:
 
 Next, we want to inspect the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
 In order to analyze correlation between variables, the ones that are categorical with two categories, are translated into binery vectors. The only categorical variable with more than two categories, is region. We split this variable into four different binery vectors, each indicating if the sample data has category (1) or not (0).
+
 After using dummy variables for sex, smoker, and region, according to the correlogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
 
 <center>
@@ -109,11 +113,34 @@ This plot shows the distribution of sex in each of the four regions. At a glance
 
 
 
+
 ## Methods
+
+
+```r
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
 
 ## Results
 
+
+```r
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
+
 ## Discussion
+
+
+```r
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
+
+## Conclusion
+
+
+```r
+# PLACE HOLDER FOR LINEAR REGRESSION
+```
 
 ## References
 1. Medical Costs Dataset - https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41
