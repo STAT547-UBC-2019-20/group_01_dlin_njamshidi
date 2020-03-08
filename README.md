@@ -42,7 +42,7 @@ https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone1.html
 
 ### Milestone 2
 
-For Milestone 2, you can find the scripts to load, process, and conduct exploratory data analysis in the [`scripts/`](scripts/) directory.
+For Milestone 2, you can find the scripts to load, process, and conduct exploratory data analysis in the [`scripts/`](scripts/) directory. The first draft of our report can be found [here](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone2.html).
 
 1. `load_data.R`
     ```
