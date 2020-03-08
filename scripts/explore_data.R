@@ -1,21 +1,36 @@
 # author: Diana lin
 # date: 2020-03-05
 
+# Description of the script and the command-line arguments
 "This script conducts exploratory data analysis with the processed data. The plots are saved to the specified directory.
 
 Usage: explore_data.R --raw_data=<raw_data> --processed_data=<processed_data> --path_to_images=<path>" -> doc
 
+# load packages
 suppressMessages(library(tidyverse))
 suppressMessages(library(docopt))
 suppressMessages(library(corrplot))
 suppressMessages(library(glue))
 suppressMessages(library(scales))
 
+# Read in the command line arguments
 option <- docopt(doc)
-### Plot the correlogram
 
+# Main function
 main <- function(raw_data, processed_data, path) {
-  # read in the processed data
+  
+  # check if command-line files exist: the raw data
+  # raw data is needed for plots that do not require dummy variables
+  if (!file.exists(raw_data)) {
+    stop(glue("The file {raw_data} does not exist!"))
+  }
+  
+  # check if command-line files exist: the processed data
+  if (!file.exists(processed_data)) {
+    stop(glue("The file {processed_data} does not exist!"))
+  }
+  
+  # read in the processed data, each column corresponding to a type
   processed_data_in <- read_csv(processed_data,
            col_types = cols(
              age = col_integer(),
@@ -30,9 +45,11 @@ main <- function(raw_data, processed_data, path) {
              charges = col_double())
   )
   
+  # calculate the correlation for the processed data
   costs_correlations <- processed_data_in %>%
     cor()
   
+  # round the values to 2 decimal places
   costs_correlations <- round(costs_correlations,2)
   
   # save and plot the corrplot
@@ -45,7 +62,7 @@ main <- function(raw_data, processed_data, path) {
            diag = FALSE)
   dev.off()
   
-  # read in the raw data (don't need dummy variables)
+  # read in the raw data (don't need dummy variables), columns of certain types
   raw_data_in <- read_csv(
     raw_data,
     col_types = cols(
@@ -101,12 +118,13 @@ main <- function(raw_data, processed_data, path) {
                 summarize(count = n()) %>%
                 group_by(region) %>% 
                 mutate(sum = sum(count) , percent = round(count/sum*100,1)) %>%
-                # mutate(percent = sum(count))
                 filter(sex == "female") , mapping = aes(fill= NULL, x = region, y = sum + 20, label=paste( percent,"% female", sep="")))+
     theme_bw() +
     ggsave(filename = paste(path, "region_barchart.png", sep = "/"), device = "png")
   
+  # print successful message
   print(glue("The four plots have been successfully saved in the {path} directory."))
 }
 
+# call main function 
 main(option$raw_data, option$processed_data, option$path_to_images)

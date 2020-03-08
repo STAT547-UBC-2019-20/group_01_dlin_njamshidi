@@ -1,21 +1,30 @@
 # Author: Nima jamshidi
 # date: 2020-03-05
 
-"This script creates a new data file including the dummy variables for the categorical variables.
+# Description of the script and the command-line arguments
+"This script wrangles the data and creates a new data file including the dummy variables for the categorical variables.
 
 Usage: load_data.R --file_path=<path_to_raw_data_file> --filename=<output_file_name>" -> doc
 
+# Load in the necessary packages
 suppressMessages(library(tidyverse))
 suppressMessages(library(docopt))
 suppressMessages(library(psych))
 suppressMessages(library(hablar))
 suppressMessages(library(glue))
+suppressMessages(library(here))
 
+# Take in command-line arguments
 opt <- docopt(doc)
 
-main <- function(path,name) {
-
+# Main function
+main <- function(path, name) {
+  # check that the command-line argument given file exists
+  if (!file.exists(path)) {
+    stop(glue("The file {path} does not exist!"))
+  }
   
+  # Read in the file, and read each column into a certain type
   data <- read_csv(
     path,
     col_types = cols(
@@ -29,18 +38,24 @@ main <- function(path,name) {
     )
   )
   
+  # wrangle the data to include dummy variables for factors
   data <- data %>%
     mutate(sex = as.numeric(sex),
-           smoker = as.numeric(fct_relevel(smoker,"no"))
-    ) %>% 
-    cbind(  as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>% 
+           smoker = as.numeric(fct_relevel(smoker, "no"))) %>%
+    cbind(as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>%
     select(-region, -charges) %>%
     cbind(charges = data$charges)
   
-  write_csv(data, glue("data/processed/{name}"))
-  print("The data has been successfully wrangled and saved.")
+  # write the csv file out to specified file name to data/processed directory
+  write_csv(data, here("data", "processed", name))
+  
+  # print out success message
+  print(
+    glue(
+      "The data has been successfully wrangled and written to {here('data', 'processed', name)}."
+    )
+  )
 }
 
-
-
-main(opt$file_path,opt$filename)
+# call the main function
+main(opt$file_path, opt$filename)
