@@ -3,24 +3,17 @@ title: "Draft"
 author: "Nima Jamshidi & Diana Lin"
 date: "3/6/2020"
 output: 
-  pdf_document:
-    toc: true
   html_document:
     toc: true
     keep_md: true
-  
+  pdf_document:
+    toc: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 
-```{r load, echo = FALSE, message = FALSE, warning = FALSE}
-library(tidyverse)
-library(here)
-library(knitr)
-```
+
+
 
 ## Introduction
 
@@ -42,21 +35,7 @@ In order to answer the questions above we're planning to perform a linear regres
 This dataset explains the medical insurance costs of a small sample of the USA population. Each row corresponds to a beneficiary. Various metadata was recorded as well.
 
 
-```{r load the data, echo=FALSE}
-# import the data 
-costs <- read_csv(
-  here("data", "raw", "Medical_Cost.csv"),
-  col_types = cols(
-    age = col_integer(),
-    sex = readr::col_factor(),
-    bmi = col_double(),
-    children = col_integer(),
-    smoker = readr::col_factor(),
-    region = readr::col_factor(),
-    charges = col_double()
-  )
-)
-```
+
 
 The columns (except the last one) in this dataset correspond to metadata, where the last column is the monetary charges of medical insurance. Here are the possible values for each of the columns:
 
@@ -75,10 +54,15 @@ Charges | double | the monetary charges the beneficiary was billed by health ins
 
 Here is a summary of the dataset, and the values of each variable:
 
-```{r summary, echo=FALSE}
-options(knitr.kable.NA="")
-kable(summary(costs))
-```
+
+          age            sex           bmi           children     smoker           region       charges    
+---  --------------  -----------  --------------  --------------  ---------  --------------  --------------
+     Min.   :18.00   female:662   Min.   :15.96   Min.   :0.000   yes: 274   southwest:325   Min.   : 1122 
+     1st Qu.:27.00   male  :676   1st Qu.:26.30   1st Qu.:0.000   no :1064   southeast:364   1st Qu.: 4740 
+     Median :39.00                Median :30.40   Median :1.000              northwest:325   Median : 9382 
+     Mean   :39.21                Mean   :30.66   Mean   :1.095              northeast:324   Mean   :13270 
+     3rd Qu.:51.00                3rd Qu.:34.69   3rd Qu.:2.000                              3rd Qu.:16640 
+     Max.   :64.00                Max.   :53.13   Max.   :5.000                              Max.   :63770 
 
 
 Next, we want to inspect the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
@@ -132,25 +116,29 @@ This plot shows the distribution of sex in each of the four regions. At a glance
 
 ## Methods
 
-```{r methods}
+
+```r
 # PLACE HOLDER FOR LINEAR REGRESSION
 ```
 
 ## Results
 
-```{r results}
+
+```r
 # PLACE HOLDER FOR LINEAR REGRESSION
 ```
 
 ## Discussion
 
-```{r discussion}
+
+```r
 # PLACE HOLDER FOR LINEAR REGRESSION
 ```
 
 ## Conclusion
 
-```{r conclusion}
+
+```r
 # PLACE HOLDER FOR LINEAR REGRESSION
 ```
 
