@@ -16,6 +16,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `corrplot`
     - `scales`
     - `glue`
+    - `RCurl`
 
 1. Run the following scripts (in order) with the appropriate arguments specified
     1. Download the data
