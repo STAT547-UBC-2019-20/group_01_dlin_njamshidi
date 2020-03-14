@@ -22,37 +22,37 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
 ### Running the whole pipeline
 
 1. Clean the repository to undo any residual incomplete analysis
-  ```
-  make clean
-  ```
+    ```
+    make clean
+    ```
   
 1. Run the entire analysis pipeline
-  ```
-  make all
-  ```
+    ```
+    make all
+    ```
   
 ### Running each step using the Makefile
 
 1. Download the data
-  ```
-  make data/raw/data.csv
-  ```
+    ```
+    make data/raw/data.csv
+    ```
 1. Process the data
-  ```
-  make data/processed/processed_data.csv
-  ```
+    ```
+    make data/processed/processed_data.csv
+    ```
 1. Perform exploratory analysis
-  ```
-  make images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png
-  ```
+    ```
+    make images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png
+    ```
 1. Perform linear regression
-  ```
-  make PLACEHOLDER
-  ```
+    ```
+    make PLACEHOLDER
+    ```
 1. Knit the final report
-  ```
-  make docs/milestone3.html docs/milestone3.pdf
-  ```
+    ```
+    make docs/milestone3.html docs/milestone3.pdf
+    ```
   
 ### Running each R script individually
 
@@ -113,10 +113,12 @@ For Milestone3, the script to knit the final report is [`scripts/knit.R`](script
     ```
     Rscript scripts/placeholder.R --processed_data="data/processed/processed_data.csv"
     ```
+    
 1. `knit.R`
     ```
     Rscript scripts/knit.R --finalreport="docs/milestone3.Rmd"
     ```
+    
 1. `Makefile`
     ```
     make
