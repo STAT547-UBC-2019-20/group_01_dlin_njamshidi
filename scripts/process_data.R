@@ -4,7 +4,7 @@
 # Description of the script and the command-line arguments
 "This script wrangles the data and creates a new data file including the dummy variables for the categorical variables.
 
-Usage: load_data.R --file_path=<path_to_raw_data_file> --filename=<output_file_name>" -> doc
+Usage: process_data.R --file_path=<path_to_raw_data_file> --filename=<output_file_name>" -> doc
 
 # Load in the necessary packages
 suppressMessages(library(tidyverse))
@@ -40,10 +40,10 @@ main <- function(path, name) {
   
   # wrangle the data to include dummy variables for factors
   data <- data %>%
-    mutate(sex = as.numeric(sex),
-           smoker = as.numeric(fct_relevel(smoker, "no"))) %>%
+    mutate(sex_dummy = as.numeric(sex),
+           smoker_dummy = as.numeric(fct_relevel(smoker, "no"))) %>%
     cbind(as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>%
-    select(-region, -charges) %>%
+    select(-charges) %>%
     cbind(charges = data$charges)
   
   # write the csv file out to specified file name to data/processed directory
