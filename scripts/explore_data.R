@@ -4,7 +4,7 @@
 # Description of the script and the command-line arguments
 "This script conducts exploratory data analysis with the processed data. The plots are saved to the specified directory.
 
-Usage: explore_data.R --raw_data=<raw_data> --processed_data=<processed_data> --path_to_images=<path>" -> doc
+Usage: explore_data.R --processed_data=<processed_data> --path_to_images=<path>" -> doc
 
 # load packages
 suppressMessages(library(tidyverse))
@@ -17,13 +17,8 @@ suppressMessages(library(scales))
 option <- docopt(doc)
 
 # Main function
-main <- function(raw_data, processed_data, path) {
+main <- function(processed_data, path) {
   
-  # check if command-line files exist: the raw data
-  # raw data is needed for plots that do not require dummy variables
-  if (!file.exists(raw_data)) {
-    stop(glue("The file {raw_data} does not exist!"))
-  }
   
   # check if command-line files exist: the processed data
   if (!file.exists(processed_data)) {
@@ -34,10 +29,13 @@ main <- function(raw_data, processed_data, path) {
   processed_data_in <- read_csv(processed_data,
            col_types = cols(
              age = col_integer(),
-             sex = col_integer(),
+             sex = readr::col_factor(),
              bmi = col_double(),
              children = col_integer(),
-             smoker = col_integer(),
+             smoker = readr::col_factor(),
+             region = readr::col_factor(),
+             sex_dummy = col_integer(),
+             smoker_dummy = col_integer(),
              southeast = col_integer(),
              southwest = col_integer(),
              northwest = col_integer(),
@@ -47,6 +45,7 @@ main <- function(raw_data, processed_data, path) {
   
   # calculate the correlation for the processed data
   costs_correlations <- processed_data_in %>%
+    select(-sex, -smoker, -region) %>% # remove the columns that are not dummy variables
     cor()
   
   # round the values to 2 decimal places
@@ -60,21 +59,12 @@ main <- function(raw_data, processed_data, path) {
            tl.srt=45,
            addCoef.col = "black",
            diag = FALSE)
+  print("Saving image")
   dev.off()
   
-  # read in the raw data (don't need dummy variables), columns of certain types
-  raw_data_in <- read_csv(
-    raw_data,
-    col_types = cols(
-      age = col_integer(),
-      sex = readr::col_factor(),
-      bmi = col_double(),
-      children = col_integer(),
-      smoker = readr::col_factor(),
-      region = readr::col_factor(),
-      charges = col_double()
-    )
-  )
+  # filter the processed_data for the ones without dummy variables to resemble 'raw data'
+  raw_data_in <- processed_data_in %>%
+    select(c(age, sex, bmi, children, smoker, region, charges))
 
   # plot and save faceted plot
   ggplot(raw_data_in, aes(x=bmi, y=charges, colour = smoker)) + 
@@ -127,4 +117,4 @@ main <- function(raw_data, processed_data, path) {
 }
 
 # call main function 
-main(option$raw_data, option$processed_data, option$path_to_images)
+main(option$processed_data, option$path_to_images)

@@ -29,7 +29,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
         ```
     1. Conduct exploratory data analysis
         ```
-        Rscript scripts/explore_data.R --raw_data="data/raw/data.csv" --processed_data="data/processed/processed_data.csv" --path_to_images="images"
+        Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
         ```
 
 ## Milestones
@@ -56,5 +56,5 @@ For Milestone 2, you can find the scripts to load, process, and conduct explorat
 
 1. `explore_data.R`
     ```
-    Rscript scripts/explore_data.R --raw_data="data/raw/data.csv" --processed_data="data/processed/processed_data.csv" --path_to_images="images"
+    Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
     ```
