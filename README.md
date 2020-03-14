@@ -107,7 +107,7 @@ For Milestone 2, you can find the scripts to load, process, and conduct explorat
 
 ### Miletone 3
 
-For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](docs/milestone3.html) and [PDF](docs/milestone3.pdf)
+For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](docs/milestone3.html) and [PDF](docs/milestone3.pdf).
 
 1. `placeholder.R`
     ```
