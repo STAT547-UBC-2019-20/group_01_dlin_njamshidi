@@ -20,9 +20,11 @@ images/age_histogram.png images/corrplot.png images/facet.png images/region_barc
 # Perform linear regression
 # PLACEHOLDER
 
+# to Knit the final report in PDF and HTML
 docs/milestone3.html docs/milestone3.pdf: scripts/knit.R docs/milestone3.Rmd images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png
 	Rscript scripts/knit.R --finalreport="docs/milestone3.Rmd"
 
+# to clean the repository and "undo" the analysis
 clean:
 	rm -f data/raw/*.csv
 	rm -f data/processed/*.csv
