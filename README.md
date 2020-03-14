@@ -3,6 +3,7 @@
 This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nima Jamshidi. The dataset we have chosen to work with is the "Medical Expenses" dataset used in the book [Machine Learning with R](https://www.amazon.com/Machine-Learning-R-Brett-Lantz/dp/1782162143), by Brett Lantz. This dataset was extracted from [Kaggle](https://www.kaggle.com/mirichoi0218/insurance/home) by Github user [\@meperezcuello](https://gist.github.com/meperezcuello). The information about this dataset has been extracted from their [GitHub Gist](https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41).
 
 ## Usage
+
 1. Clone this repo
     ```
     git clone https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi.git
@@ -17,6 +18,43 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `scales`
     - `glue`
     - `RCurl`
+    
+### Running the whole pipeline
+
+1. Clean the repository to undo any residual incomplete analysis
+  ```
+  make clean
+  ```
+  
+1. Run the entire analysis pipeline
+  ```
+  make all
+  ```
+  
+### Running each step using the Makefile
+
+1. Download the data
+  ```
+  make data/raw/data.csv
+  ```
+1. Process the data
+  ```
+  make data/processed/processed_data.csv
+  ```
+1. Perform exploratory analysis
+  ```
+  make images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png
+  ```
+1. Perform linear regression
+  ```
+  make PLACEHOLDER
+  ```
+1. Knit the final report
+  ```
+  make docs/milestone3.html docs/milestone3.pdf
+  ```
+  
+### Running each R script individually
 
 1. Run the following scripts (in order) with the appropriate arguments specified
     1. Download the data
@@ -30,6 +68,14 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     1. Conduct exploratory data analysis
         ```
         Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
+        ```
+    1. Conduct linear regression
+        ```
+        # placeholder
+        ```
+    1. Knit the final report
+        ```
+        Rscript scripts/knit.R --finalreport="docs/milestone3.Rmd"
         ```
 
 ## Milestones
@@ -57,4 +103,21 @@ For Milestone 2, you can find the scripts to load, process, and conduct explorat
 1. `explore_data.R`
     ```
     Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
+    ```
+
+### Miletone 3
+
+For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](docs/milestone3.html) and [PDF](docs/milestone3.pdf)
+
+1. `placeholder.R`
+    ```
+    Rscript scripts/placeholder.R --processed_data="data/processed/processed_data.csv"
+    ```
+1. `knit.R`
+    ```
+    Rscript scripts/knit.R --finalreport="docs/milestone3.Rmd"
+    ```
+1. `Makefile`
+    ```
+    make
     ```
