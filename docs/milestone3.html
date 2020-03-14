@@ -380,7 +380,7 @@ summary {
 <p>This dataset explains the medical insurance costs of a small sample of the USA population. Each row corresponds to a beneficiary. Various metadata was recorded as well.</p>
 <pre class="r"><code># import the data 
 costs &lt;- read_csv(
-  here(&quot;data&quot;, &quot;raw&quot;, &quot;Medical_Cost.csv&quot;),
+  here(&quot;data&quot;, &quot;raw&quot;, &quot;data.csv&quot;),
   col_types = cols(
     age = col_integer(),
     sex = readr::col_factor(),
