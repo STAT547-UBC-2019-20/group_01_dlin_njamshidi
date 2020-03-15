@@ -12,6 +12,8 @@ suppressMessages(library(docopt))
 suppressMessages(library(corrplot))
 suppressMessages(library(glue))
 suppressMessages(library(scales))
+suppressMessages(library(stringr))
+suppressMessages(library(here))
 
 # Read in the command line arguments
 option <- docopt(doc)
@@ -19,10 +21,21 @@ option <- docopt(doc)
 # Main function
 main <- function(processed_data, path) {
   
-  
   # check if command-line files exist: the processed data
   if (!file.exists(processed_data)) {
     stop(glue("The file {processed_data} does not exist!"))
+  }
+  
+  # if the path given includes the root directory, then, rewrite path to equal to 'relative' directory path from the root
+  # this way the use of here can be used in the rest of the script
+  root <- paste0(here(),"/")
+  if (str_detect(path,root)) {
+    path <- paste0(str_remove(path,root))
+  }
+  
+  # if the directory does not exist, create the directory with parent directories
+  if (!dir.exists(here(path))) {
+    dir.create(here(path), recursive = TRUE)
   }
   
   # read in the processed data, each column corresponding to a type
@@ -76,7 +89,7 @@ main <- function(processed_data, path) {
          y = 'Charges (USD)',
          title = "Exploring the Medical Costs Dataset") +
     scale_y_continuous(labels = dollar) +
-    ggsave(filename = paste(path,"facet.png",sep = "/"), device = "png")
+    ggsave(filename = paste(here(path),"facet.png",sep = "/"), device = "png")
   
   # plot age histogram
   raw_data_in %>% 
@@ -94,7 +107,7 @@ main <- function(processed_data, path) {
     xlab("Age Ranges") +
     ylab("Count")+
     theme_bw() +
-    ggsave(filename = paste(path, "age_histogram.png", sep = "/"), device = "png")
+    ggsave(filename = paste(here(path), "age_histogram.png", sep = "/"), device = "png")
   
   # plot stacked bar chart
   raw_data_in %>%
@@ -110,7 +123,7 @@ main <- function(processed_data, path) {
                 mutate(sum = sum(count) , percent = round(count/sum*100,1)) %>%
                 filter(sex == "female") , mapping = aes(fill= NULL, x = region, y = sum + 20, label=paste( percent,"% female", sep="")))+
     theme_bw() +
-    ggsave(filename = paste(path, "region_barchart.png", sep = "/"), device = "png")
+    ggsave(filename = paste(here(path), "region_barchart.png", sep = "/"), device = "png")
   
   # print successful message
   print(glue("The four plots have been successfully saved in the {path} directory."))

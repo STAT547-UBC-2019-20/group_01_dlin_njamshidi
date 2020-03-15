@@ -15,6 +15,7 @@ library(glue)
 opt <- docopt(doc)
 
 main <- function(rmd) {
+  # check that the Rmarkdown file exists
   if(!file.exists(rmd)) {
     stop(glue("The Rmarkdown file {rmd} does not exist!"))
   }
