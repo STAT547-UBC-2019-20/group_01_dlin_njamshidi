@@ -15,13 +15,13 @@ output:
 
 
 
-## Introduction
+# Introduction
 
 The dataset we have chosen to work with is the "Medical Expenses" dataset used in the book [Machine Learning with R](https://www.amazon.com/Machine-Learning-R-Brett-Lantz/dp/1782162143), by Brett Lantz. This dataset was extracted from [Kaggle](https://www.kaggle.com/mirichoi0218/insurance/home) by Github user [\@meperezcuello](https://gist.github.com/meperezcuello). The information about this dataset has been extracted from their [GitHub Gist](https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41).
 
 This dataset is very interesting as the USA does not have universal healthcare, and is known for bankrupting its citizens with hospital visits despite having insurance. It will be interesting to see the relationship between characteristics of a beneficiary, such as `BMI` and `Smoking` status, and the `charges` incurred.
 
-## Research Question
+# Research Question
 In this study, we are analyzing the data to find a relationship between the features and the amount of insurance cost.
 
 Does having an increased BMI increase your insurance costs? What about age? Number of dependents? Smoking status?
@@ -30,7 +30,7 @@ Are certain areas of the USA associated with higher insurance costs?
 In order to answer the questions above we're planning to perform a linear regression analysis and plot the regression line and relevant variables. The variables need to be normalized before performing the regression analysis.
 
 
-## Data Description
+# Data Description
 
 This dataset explains the medical insurance costs of a small sample of the USA population. Each row corresponds to a beneficiary. Various metadata was recorded as well.
 
@@ -50,7 +50,7 @@ Smoker | factor | whether or not the beneficiary is a smoker: `yes` or `no`
 Region | factor | the beneficiary's residential area in the USA: `southwest`, `southeast`, `northwest`, or `northeast`
 Charges | double | the monetary charges the beneficiary was billed by health insurance
 
-## Exploring the Dataset
+# Exploring the Dataset
 
 Here is a summary of the dataset, and the values of each variable (Table \@ref(tab:summary)):
 
@@ -100,12 +100,12 @@ Figure \@ref(fig:barplot-png) shows the distribution of sex in each of the four 
 <p class="caption">(\#fig:barplot-png)Sex distribution across four regions</p>
 </div>
 
-## Methods
+# Methods
 
 
 
 
-Here we use multiple linear regression to study the relations between the independent variables and the dependent one, charges. Below you can find the results of the regression in Table \@ref(tab:methods-tidy). 'lm' function in R transforms a categorical variable with n levels into n-1 variables each with two levels to insure the variables are independent. Here we can see that varables age, bmi, children, and smoker are significantly important in the regression. Sex is an insignificant factor in the model.
+Here we use multiple linear regression to study the relations between the independent variables and the dependent one, charges. Below you can find the results of the regression in Table \@ref(tab:methods-tidy). `lm` function in R transforms a categorical variable with n levels into n-1 variables each with two levels to insure the variables are independent. Here we can see that varables age, bmi, children, and smoker are significantly important in the regression. Sex is an insignificant factor in the model.
 
 
 Table: (\#tab:methods-tidy)Summary of the model's variables and their respective coefficients
@@ -136,7 +136,7 @@ Table: (\#tab:methods-glance)Model summary
 <img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot001.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot002.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot003.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot004.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot005.png" alt="regression diagnostics plots" width="49%" height="20%" />
 <p class="caption">(\#fig:regression)regression diagnostics plots</p>
 </div>
-## Results
+# Results
 
 In Table \@ref(tab:results) you can find a number of examples of the data with their fitted value. 
 
@@ -152,13 +152,13 @@ Table: (\#tab:results)Estimated values their statistics
   3866.855    32  male      28.880          0  no       northwest     5592.493   424.3699   -1725.6382   0.0049005   6064.198   0.0000446   -0.2853601
   3756.622    31  female    25.740          0  no       southeast     3719.826   454.5231      36.7958   0.0056217   6064.384   0.0000000    0.0060869
 
-## Discussion
+# Discussion
 
 Based on the "Residuals vs Fitted" and "Real vs Fitted" graphs, we can see that the model fairly works for charges under 2000\$. There are three clusters in these graphs with similar slopes. There is a gap between charges under and over 2000\$ which might be relevant to the weak estimates of the model over 2000\$.
 If we apply linear regression on each cluster we will get similar coefficients for the variables with different intercepts. Each cluster might be attributed to a different desease group and in each of them the impacts of age, smoking, bmi and etc. are similar.
 
 
-## Conclusion
+# Conclusion
 
 We were able to do a linear regression on our dataset. The results show that there is an association relationship between age, bmi, number of children, and smoking with medical charges. interestingly, gender does not affect medical charges. Diagnostic plots reveal that the data is not completely normally distributed. Moreover, three clusters of records are present in the dataset, which might be representative of different types of deseases.
 
