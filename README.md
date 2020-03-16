@@ -71,7 +71,8 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
         ```
     1. Conduct linear regression
         ```
-        # placeholder
+        Rscript scripts/linear_model.R --processed_data="data/processed/processed_data.csv"
+--path_to_images="images" --path_to_lmdata="data/linear_model"
         ```
     1. Knit the final report
         ```
