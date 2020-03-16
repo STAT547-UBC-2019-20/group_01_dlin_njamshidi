@@ -12,6 +12,9 @@ library(tidyverse)
 library(broom)
 library(purrr)
 library(glue)
+library(grid)
+library(gridExtra)
+library(png)
 
 # read in command-line arguments
 opt <- docopt(doc)
@@ -38,7 +41,7 @@ main <- function(processed_data,image_path,lm_path) {
     geom_abline(slope = 1, colour = "blue") +
     coord_fixed() +
     theme_bw() +
-    labs(title = "Real vs. Fitted",
+    labs(title = "Real vs Fitted",
          x = "Fitted Values", y = "Real Values") +
     theme(plot.title = element_text(hjust = 0.5, face = "plain")) +
     ggsave(paste(image_path, "lmplot005.png", sep = "/"))
