@@ -18,11 +18,11 @@ images/age_histogram.png images/corrplot.png images/facet.png images/region_barc
 	Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
 
 # Perform linear regression
-data/linear_model/model.rds data/linear_model/tidied.rds data/linear_model/glanced.rds data/linear_model/augmented.rds images/lmplot001.png images/lmplot002.png images/lmplot003.png images/lmplot004.png images/lmplot005.png: scripts/explore_data.R data/processed/processed_data.csv
+data/linear_model/model.rds data/linear_model/tidied.rds data/linear_model/glanced.rds data/linear_model/augmented.rds images/lmplot001.png images/lmplot002.png images/lmplot003.png images/lmplot004.png images/lmplot005.png: scripts/linear_model.R data/processed/processed_data.csv
 	Rscript scripts/linear_model.R --processed_data="data/processed/processed_data.csv" --path_to_images="images" --path_to_lmdata="data/linear_model"
 	
 # to Knit the final report in PDF and HTML
-docs/milestone3.html docs/milestone3.pdf: scripts/knit.R docs/milestone3.Rmd images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png
+docs/milestone3.html docs/milestone3.pdf: scripts/knit.R docs/milestone3.Rmd images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png data/linear_model/model.rds data/linear_model/tidied.rds data/linear_model/glanced.rds data/linear_model/augmented.rds images/lmplot001.png images/lmplot002.png images/lmplot003.png images/lmplot004.png images/lmplot005.png
 	Rscript scripts/knit.R --finalreport="docs/milestone3.Rmd"
 
 # to clean the repository and "undo" the analysis

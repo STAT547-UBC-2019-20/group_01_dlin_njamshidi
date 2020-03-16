@@ -73,14 +73,14 @@ After using dummy variables for sex, smoker, and region, according to the correl
 
 
 <div class="figure" style="text-align: center">
-<img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/corrplot.png" alt="Correlation plot" width="75%" height="75%" />
+<img src="/Users/dianalin/STAT547/group01/images/corrplot.png" alt="Correlation plot" width="75%" height="75%" />
 <p class="caption">(\#fig:corrplot-png)Correlation plot</p>
 </div>
 
 In order to to check if there is any cluster of data points, we use faceted plot (Figure \@ref(fig:facet-png)). While the data between regions and sex does not appear to vary much, the smokers vs nonsmokers of each facet appear to cluster together, with the non-smokers having an overall lower medical cost.
 
 <div class="figure" style="text-align: center">
-<img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/facet.png" alt="Exploring the medical costs dataset" width="75%" height="75%" />
+<img src="/Users/dianalin/STAT547/group01/images/facet.png" alt="Exploring the medical costs dataset" width="75%" height="75%" />
 <p class="caption">(\#fig:facet-png)Exploring the medical costs dataset</p>
 </div>
 
@@ -88,7 +88,7 @@ How is the distribution of sex among different age groups?
 Looking at Figure \@ref(fig:agehist-png), there appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket.
 
 <div class="figure" style="text-align: center">
-<img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/age_histogram.png" alt="Distribution of age ranges" width="75%" height="75%" />
+<img src="/Users/dianalin/STAT547/group01/images/age_histogram.png" alt="Distribution of age ranges" width="75%" height="75%" />
 <p class="caption">(\#fig:agehist-png)Distribution of age ranges</p>
 </div>
 
@@ -96,7 +96,7 @@ How about the distribution of sex among the regions?
 Figure \@ref(fig:barplot-png) shows the distribution of sex in each of the four regions. At a glance, the dataset looks very even when it comes to sex, but there are slightly more beneficiaries in the southeast.
 
 <div class="figure" style="text-align: center">
-<img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/region_barchart.png" alt="Sex distribution across four regions" width="75%" height="75%" />
+<img src="/Users/dianalin/STAT547/group01/images/region_barchart.png" alt="Sex distribution across four regions" width="75%" height="75%" />
 <p class="caption">(\#fig:barplot-png)Sex distribution across four regions</p>
 </div>
 
@@ -133,7 +133,7 @@ Table: (\#tab:methods-glance)Model summary
 
 
 <div class="figure" style="text-align: center">
-<img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot001.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot002.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot003.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot004.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="C:/Users/nimad/Downloads/STAT 547/Project/group_01_dlin_njamshidi-1/images/lmplot005.png" alt="regression diagnostics plots" width="49%" height="20%" />
+<img src="/Users/dianalin/STAT547/group01/images/lmplot001.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="/Users/dianalin/STAT547/group01/images/lmplot002.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="/Users/dianalin/STAT547/group01/images/lmplot003.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="/Users/dianalin/STAT547/group01/images/lmplot004.png" alt="regression diagnostics plots" width="49%" height="20%" /><img src="/Users/dianalin/STAT547/group01/images/lmplot005.png" alt="regression diagnostics plots" width="49%" height="20%" />
 <p class="caption">(\#fig:regression)regression diagnostics plots</p>
 </div>
 # Results
