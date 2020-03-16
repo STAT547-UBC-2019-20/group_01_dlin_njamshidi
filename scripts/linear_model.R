@@ -15,18 +15,49 @@ library(glue)
 library(grid)
 library(gridExtra)
 library(png)
+library(here)
 
 # read in command-line arguments
 opt <- docopt(doc)
 
 main <- function(processed_data,image_path,lm_path) {
-  data <- read.csv(processed_data)
+  
+  # check if paths given was relative or absolute
+  # if path given includes the root, then remove root to use `here` package.
+  root <- paste0(here(),"/")
+  if (str_detect(processed_data,root)) {
+    processed_data <- paste0(str_remove(processed_data,root))
+  }
+  
+  if (str_detect(image_path,root)) {
+    image_path <- paste0(str_remove(image_path,root))
+  }
+  
+  if (str_detect(lm_path,root)) {
+    lm_path <- paste0(str_remove(lm_path,root))
+  }
+  
+  # check if processed_data file exists
+  if (!file.exists(processed_data)) {
+    stop(glue("The file {processed_data} does not exist!"))
+  }
+  
+  # if the directory does not exist, create the directory with parent directories
+  if (!dir.exists(here(image_path))) {
+    dir.create(here(image_path), recursive = TRUE)
+  }
+  
+  if (!dir.exists(here(lm_path))) {
+    dir.create(here(lm_path), recursive = TRUE)
+  }
+  
+  data <- read.csv(here(processed_data))
   
   model <-
     lm(charges ~ age + sex + bmi + children + smoker + region, data = data)
   
   plots <-
-    png(paste(image_path, "lmplot%03d.png", sep = "/"))
+    png(here(image_path, "lmplot%03d.png"))
   plot(model, ask = FALSE)
   dev.off()
   
@@ -44,12 +75,12 @@ main <- function(processed_data,image_path,lm_path) {
     labs(title = "Real vs Fitted",
          x = "Fitted Values", y = "Real Values") +
     theme(plot.title = element_text(hjust = 0.5, face = "plain")) +
-    ggsave(paste(image_path, "lmplot005.png", sep = "/"))
+    ggsave(here(image_path, "lmplot005.png"))
   
   # print successful message
   print(
     glue(
-      "The linear regression plots have been successfully saved in the {image_path} directory."
+      "The linear regression plots have been successfully saved in the {here(image_path)} directory."
     )
   )
   
@@ -61,12 +92,12 @@ main <- function(processed_data,image_path,lm_path) {
       tidied = tidied,
       augmented = augmented
     )
-  map2(flist, names(flist), ~ saveRDS(.x, paste0(lm_path, "/", .y , ".rds")))
+  map2(flist, names(flist), ~ saveRDS(.x, paste0(here(lm_path), "/", .y , ".rds")))
   
   # print successful message
   print(
     glue(
-      "The linear regression model, and its related statistics have been successfully saved in .rds format in the {lm_path} directory."
+      "The linear regression model, and its related statistics have been successfully saved in .rds format in the {here(lm_path)} directory."
     )
   )
   

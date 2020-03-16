@@ -18,6 +18,18 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `scales`
     - `glue`
     - `RCurl`
+    - `docopt`
+    - `broom`
+    - `purrr`
+    - `grid`
+    - `gridExtra`
+    - `png`
+    - `tinytex`
+    
+    To install all these packages in your R Console:
+    ```
+    install.packages(c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","purrr","grid","gridExtra","png","tinytex"))
+    ```
     
 ### Running the whole pipeline
 
@@ -59,7 +71,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
 1. Run the following scripts (in order) with the appropriate arguments specified
     1. Download the data
         ```
-        Rscript scripts/load_data.R --data_to_url=https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv
+        Rscript scripts/load_data.R --data_to_url="https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv"
         ```
     1. Wrangle/clean/process your data 
         ```
@@ -107,7 +119,7 @@ For Milestone 2, you can find the scripts to load, process, and conduct explorat
 
 ### Miletone 3
 
-For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](docs/milestone3.html) and [PDF](docs/milestone3.pdf).
+For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html) and [PDF](docs/milestone3.pdf).
 
 1. `linear_model.R`
     ```
