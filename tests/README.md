@@ -5,7 +5,7 @@ This directory will hold all the test files.
 
 So far, no test files using the `testthat` package have been written, however some 'manual' tests have been written into the scripts.
 
-1. `load_data.R` on [L24-27](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/blob/f9807e439b117378efa1674ff061fec7a25afea4/scripts/load_data.R#L24-25):
+1. [`load_data.R`](../scripts/load_data.R):
     ```
     # check if URL given exists
     if (!url.exists(url)) {
@@ -13,7 +13,7 @@ So far, no test files using the `testthat` package have been written, however so
     }
     ```
   
-1. `process_data.R` on [L22-25](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/blob/f9807e439b117378efa1674ff061fec7a25afea4/scripts/process_data.R#L22):
+1. [`process_data.R`](../scripts/process_data.R):
     ```
     # check that the command-line argument given file exists
     if (!file.exists(path)) {
@@ -21,7 +21,7 @@ So far, no test files using the `testthat` package have been written, however so
     }
     ```
   
-1. `explore_data.R` on [L24-27](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/blob/f9807e439b117378efa1674ff061fec7a25afea4/scripts/explore_data.R#L24), [L29-34](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/blob/f9807e439b117378efa1674ff061fec7a25afea4/scripts/explore_data.R#L29), [L36-39](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/blob/f9807e439b117378efa1674ff061fec7a25afea4/scripts/explore_data.R#L36):
+1. [`explore_data.R`](../scripts/explore_data.R):
     ```
     # check if command-line files exist: the processed data
     if (!file.exists(processed_data)) {
@@ -40,8 +40,40 @@ So far, no test files using the `testthat` package have been written, however so
       dir.create(here(path), recursive = TRUE)
     }
     ```
+    
+1. [`linear_model.R`](../scripts/linear_model.R):
+    ```
+    # check if paths given was relative or absolute
+    # if path given includes the root, then remove root to use `here` package.
+    root <- paste0(here(),"/")
+    if (str_detect(processed_data,root)) {
+      processed_data <- paste0(str_remove(processed_data,root))
+    }
+    
+    if (str_detect(image_path,root)) {
+      image_path <- paste0(str_remove(image_path,root))
+    }
+    
+    if (str_detect(lm_path,root)) {
+      lm_path <- paste0(str_remove(lm_path,root))
+    }
+    
+    # check if processed_data file exists
+    if (!file.exists(processed_data)) {
+      stop(glue("The file {processed_data} does not exist!"))
+    }
   
-1. `knit.R` on [L18-21](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/blob/f9807e439b117378efa1674ff061fec7a25afea4/scripts/knit.R#L18):
+    # if the directory does not exist, create the directory with parent directories
+    if (!dir.exists(here(image_path))) {
+      dir.create(here(image_path), recursive = TRUE)
+    }
+    
+    if (!dir.exists(here(lm_path))) {
+      dir.create(here(lm_path), recursive = TRUE)
+    }
+    ```
+    
+1. [`knit.R`](../scripts/knit.R):
     ```
     # check if the Rmarkdown file to knit exists
     if(!file.exists(rmd)) {
