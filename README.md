@@ -71,7 +71,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
         ```
     1. Conduct linear regression
         ```
-        # placeholder
+        Rscript scripts/linear_model.R --processed_data="data/processed/processed_data.csv" --path_to_images="images" --path_to_lmdata="data/linear_model"
         ```
     1. Knit the final report
         ```
@@ -109,9 +109,9 @@ For Milestone 2, you can find the scripts to load, process, and conduct explorat
 
 For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](docs/milestone3.html) and [PDF](docs/milestone3.pdf).
 
-1. `placeholder.R`
+1. `linear_model.R`
     ```
-    Rscript scripts/placeholder.R --processed_data="data/processed/processed_data.csv"
+    Rscript scripts/linear_model.R --processed_data="data/processed/processed_data.csv" --path_to_images="images" --path_to_lmdata="data/linear_model"
     ```
     
 1. `knit.R`

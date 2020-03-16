@@ -86,8 +86,7 @@ main <- function(processed_data, path) {
     theme_bw() +
     facet_grid(sex ~ region, labeller = label_both) +
     labs(x = 'BMI',
-         y = 'Charges (USD)',
-         title = "Exploring the Medical Costs Dataset") +
+         y = 'Charges (USD)') +
     scale_y_continuous(labels = dollar) +
     ggsave(filename = paste(here(path),"facet.png",sep = "/"), device = "png")
   
@@ -103,10 +102,10 @@ main <- function(processed_data, path) {
     )) %>%
     ggplot(aes(x=age_range,fill=sex)) +
     geom_bar(position = "dodge") +
-    ggtitle("Distribution of Ages") +
     xlab("Age Ranges") +
     ylab("Count")+
     theme_bw() +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
     ggsave(filename = paste(here(path), "age_histogram.png", sep = "/"), device = "png")
   
   # plot stacked bar chart
@@ -115,7 +114,6 @@ main <- function(processed_data, path) {
     summarize(count = n()) %>%
     ggplot(aes(fill = sex, x = region, y=count)) +
     geom_bar(position="stack", stat="identity") +
-    ggtitle("Sex Distribution Across Four Regions")+
     geom_text(data = raw_data_in %>%
                 group_by(sex, region) %>%
                 summarize(count = n()) %>%
@@ -123,6 +121,7 @@ main <- function(processed_data, path) {
                 mutate(sum = sum(count) , percent = round(count/sum*100,1)) %>%
                 filter(sex == "female") , mapping = aes(fill= NULL, x = region, y = sum + 20, label=paste( percent,"% female", sep="")))+
     theme_bw() +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
     ggsave(filename = paste(here(path), "region_barchart.png", sep = "/"), device = "png")
   
   # print successful message

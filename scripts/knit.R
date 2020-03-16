@@ -20,7 +20,7 @@ main <- function(rmd) {
     stop(glue("The Rmarkdown file {rmd} does not exist!"))
   }
   
-  rmarkdown::render(rmd, c("html_document", "pdf_document"))
+  rmarkdown::render(rmd, c("bookdown::html_document2", "bookdown::pdf_document2"))
 }
 
 # call main function

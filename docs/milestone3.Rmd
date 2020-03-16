@@ -1,8 +1,14 @@
 ---
-title: "Draft"
+title: "STAT 547M Project"
 author: "Diana Lin & Nima Jamshidi"
 date: "14/03/2020"
-output: html_document
+output: 
+  bookdown::html_document2:
+    toc: true
+    keep_md: true
+  bookdown::pdf_document2:
+    toc: true
+
 ---
 
 ```{r setup, include=FALSE}
@@ -12,26 +18,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load, echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(here)
-library(corrplot)
+#library(corrplot)
 library(scales)
 library(glue)
-library(psych)
-library(hablar)
+#library(psych)
+#library(hablar)
+library(knitr)
 ```
 
-## Introduction
+# Introduction
 
 The dataset we have chosen to work with is the "Medical Expenses" dataset used in the book [Machine Learning with R](https://www.amazon.com/Machine-Learning-R-Brett-Lantz/dp/1782162143), by Brett Lantz. This dataset was extracted from [Kaggle](https://www.kaggle.com/mirichoi0218/insurance/home) by Github user [\@meperezcuello](https://gist.github.com/meperezcuello). The information about this dataset has been extracted from their [GitHub Gist](https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41).
 
 This dataset is very interesting as the USA does not have universal healthcare, and is known for bankrupting its citizens with hospital visits despite having insurance. It will be interesting to see the relationship between characteristics of a beneficiary, such as `BMI` and `Smoking` status, and the `charges` incurred.
 
-Originally, this dataset was used to train a machine learning algorithm to accurately predict insurance costs using linear regression.
+# Research Question
+In this study, we are analyzing the data to find a relationship between the features and the amount of insurance cost.
 
-## Data Description
+Does having an increased BMI increase your insurance costs? What about age? Number of dependents? Smoking status?
+Are certain areas of the USA associated with higher insurance costs?
+
+In order to answer the questions above we're planning to perform a linear regression analysis and plot the regression line and relevant variables. The variables need to be normalized before performing the regression analysis.
+
+
+# Data Description
 
 This dataset explains the medical insurance costs of a small sample of the USA population. Each row corresponds to a beneficiary. Various metadata was recorded as well.
 
-```{r load the data}
+
+```{r load the data, echo=FALSE}
 # import the data 
 costs <- read_csv(
   here("data", "raw", "data.csv"),
@@ -47,12 +62,8 @@ costs <- read_csv(
 )
 ```
 
-The columns (except the last one) in this dataset correspond to metadata, where the last column is the monetary charges of medical insurance:
-```{r columns}
-colnames(costs)
-```
+The columns (except the last one) in this dataset correspond to metadata, where the last column is the monetary charges of medical insurance. Here are the possible values for each of the columns:
 
-Here are the possible values for each of the above column names:
 
 Variable | Type | Description
 ---------|------|---------------
@@ -64,69 +75,89 @@ Smoker | factor | whether or not the beneficiary is a smoker: `yes` or `no`
 Region | factor | the beneficiary's residential area in the USA: `southwest`, `southeast`, `northwest`, or `northeast`
 Charges | double | the monetary charges the beneficiary was billed by health insurance
 
-## Exploring the Dataset
+# Exploring the Dataset
 
-Here is a summary of the dataset, and the values of each variable:
-```{r summary}
-summary(costs)
+Here is a summary of the dataset, and the values of each variable (Table \@ref(tab:summary)):
+
+```{r summary, echo=FALSE}
+options(knitr.kable.NA="")
+kable(summary(costs), caption = "summary of the dataset")
 ```
 
-### Correlogram
-
-In this section we are inspecting the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
+Next, we want to inspect the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
 In order to analyze correlation between variables, the ones that are categorical with two categories, are translated into binery vectors. The only categorical variable with more than two categories, is region. We split this variable into four different binery vectors, each indicating if the sample data has category (1) or not (0).
-After using dummy variables for sex, smoker, and region, according to the correlogram below, smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
 
-```{r corrplot-png, echo = FALSE, fig.align = 'center', out.width='75%', out.height='75%'}
+After using dummy variables for sex, smoker, and region, according to the correlogram show in Figure \@ref(fig:corrplot-png), smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
+
+
+```{r corrplot-png, echo = FALSE, fig.cap="Correlation plot", fig.align = 'center', out.width='75%', out.height='75%'}
 knitr::include_graphics(here("images", "corrplot.png"))
 ```
 
-### Faceted Plot
+In order to to check if there is any cluster of data points, we use faceted plot (Figure \@ref(fig:facet-png)). While the data between regions and sex does not appear to vary much, the smokers vs nonsmokers of each facet appear to cluster together, with the non-smokers having an overall lower medical cost.
 
-Here we want to explore the data to see if there is any cluster of data points. While the data between regions and sex does not appear to vary much, the smokers vs nonsmokers of each facet appear to cluster together, with the non-smokers having an overall lower medical cost.
-
-```{r facet-png, echo = FALSE, fig.align = 'center', out.width='75%', out.height='75%'}
+```{r facet-png, echo = FALSE, fig.cap="Exploring the medical costs dataset",fig.align = 'center', out.width='75%', out.height='75%'}
 knitr::include_graphics(here("images", "facet.png"))
 ```
 
-### Histogram
-
 How is the distribution of sex among different age groups?
-Looking at the dataset, there appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket.
+Looking at Figure \@ref(fig:agehist-png), there appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket.
 
-```{r agehist-png, echo = FALSE, fig.align = 'center', out.width='75%', out.height='75%'}
+```{r agehist-png, echo = FALSE, fig.cap="Distribution of age ranges", fig.align = 'center', out.width='75%', out.height='75%'}
 knitr::include_graphics(here("images", "age_histogram.png"))
 ```
 
-### Stacked Bar Chart
-
 How about the distribution of sex among the regions?
-This plot shows the distribution of sex in each of the four regions. At a glance, the dataset looks very even when it comes to sex, but there are slightly more beneficiaries in the southeast.
+Figure \@ref(fig:barplot-png) shows the distribution of sex in each of the four regions. At a glance, the dataset looks very even when it comes to sex, but there are slightly more beneficiaries in the southeast.
 
-```{r barplot-png, echo = FALSE, fig.align = 'center', out.width='75%', out.height='75%'}
+```{r barplot-png, echo = FALSE, fig.cap="Sex distribution across four regions",fig.align = 'center', out.width='75%', out.height='75%'}
 knitr::include_graphics(here("images", "region_barchart.png"))
 ```
 
-## Methods
+# Methods
 
-```{r methods}
-# PLACE HOLDER FOR LINEAR REGRESSION
+```{r data, include=FALSE}
+tidied <- readRDS("../data/linear_model/tidied.rds")
+glanced <- readRDS("../data/linear_model/glanced.rds")
+augmented <- readRDS("../data/linear_model/augmented.rds")
 ```
 
-## Results
 
-```{r results}
+Here we use multiple linear regression to study the relations between the independent variables and the dependent one, charges. Below you can find the results of the regression in Table \@ref(tab:methods-tidy). `lm` function in R transforms a categorical variable with n levels into n-1 variables each with two levels to insure the variables are independent. Here we can see that varables age, bmi, children, and smoker are significantly important in the regression. Sex is an insignificant factor in the model.
+
+```{r methods-tidy,echo=FALSE}
+kable(tidied, caption = "Summary of the model's variables and their respective coefficients")
+```
+
+In Table \@ref(tab:methods-glance) we can see that the r-squared value is `r round(glanced$r.squared,2)`. Figure \@ref(fig:regression) shows the diagnostics plots of the regression model. 
+
+```{r methods-glance, echo=FALSE}
+kable(glanced, caption = "Model summary")
+```
+
+
+```{r regression, echo=FALSE,out.width="49%", out.height="20%",fig.cap="regression diagnostics plots",fig.show='hold',fig.align='center'}
+knitr::include_graphics(c(here("images", "lmplot001.png"),here("images", "lmplot002.png"),here("images", "lmplot003.png"),here("images", "lmplot004.png"),here("images", "lmplot005.png")))
+``` 
+# Results
+
+In Table \@ref(tab:results) you can find a number of examples of the data with their fitted value. 
+
+```{r results, echo=FALSE}
+kable(head(augmented), caption = "Estimated values their statistics")
+```
+
+# Discussion
+
+Based on the "Residuals vs Fitted" and "Real vs Fitted" graphs, we can see that the model fairly works for charges under 2000\$. There are three clusters in these graphs with similar slopes. There is a gap between charges under and over 2000\$ which might be relevant to the weak estimates of the model over 2000\$.
+If we apply linear regression on each cluster we will get similar coefficients for the variables with different intercepts. Each cluster might be attributed to a different desease group and in each of them the impacts of age, smoking, bmi and etc. are similar.
+```{r discussion,echo=FALSE}
 # PLACEHOLDER FOR LINEAR REGRESSION
 ```
 
-## Discussion
+# Conclusion
 
-```{r discussion}
-# PLACEHOLDER FOR LINEAR REGRESSION
-```
-
-## Conclusion
-
-```{r conclusion}
+We were able to do a linear regression on our dataset. The results show that there is an association relationship between age, bmi, number of children, and smoking with medical charges. interestingly, gender does not affect medical charges. Diagnostic plots reveal that the data is not completely normally distributed. Moreover, three clusters of records are present in the dataset, which might be representative of different types of deseases.
+```{r conclusion,echo=FALSE}
 # PLACEHOLDER FOR LINEAR REGRESSION
 ```
