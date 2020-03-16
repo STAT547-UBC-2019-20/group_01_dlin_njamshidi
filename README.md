@@ -47,7 +47,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     ```
 1. Perform linear regression
     ```
-    make PLACEHOLDER
+    make data/linear_model/model.rds data/linear_model/tidied.rds data/linear_model/glanced.rds data/linear_model/augmented.rds images/lmplot001.png images/lmplot002.png images/lmplot003.png images/lmplot004.png images/lmplot005.png
     ```
 1. Knit the final report
     ```
