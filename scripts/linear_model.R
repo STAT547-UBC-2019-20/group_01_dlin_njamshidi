@@ -50,22 +50,22 @@ main <- function(processed_data,image_path,lm_path) {
   if (!dir.exists(here(lm_path))) {
     dir.create(here(lm_path), recursive = TRUE)
   }
-  
+  #read the processed data.
   data <- read.csv(here(processed_data))
-  
+  #conduct linear regression
   model <-
     lm(charges ~ age + sex + bmi + children + smoker + region, data = data)
-  
+  #plot the first 4 diagnostics graphs
   plots <-
     png(here(image_path, "lmplot%03d.png"))
   plot(model, ask = FALSE)
   dev.off()
   
-  
+  #linear regression statistics 
   glanced <- glance(model)
   tidied <- tidy(model)
   augmented <- augment(model)
-  
+  #plot the fifth diagnostics graph
   augmented %>%
     ggplot(aes(x = .fitted, y = charges)) +
     geom_point() +
@@ -84,7 +84,7 @@ main <- function(processed_data,image_path,lm_path) {
     )
   )
   
-  
+  #save the statistics in separate .rds files
   flist <-
     list(
       model = model,
