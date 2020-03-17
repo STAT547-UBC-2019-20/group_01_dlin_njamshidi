@@ -146,6 +146,7 @@ In Table \@ref(tab:results) you can find a number of examples of the data with t
 
 ```{r results, echo=FALSE}
 kable(head(augmented), caption = "Estimated values their statistics")
+#kableExtra::kable_styling(kable(head(augmented),"latex", caption = "Estimated values their statistics"),latex_options = "hold_position")
 ```
 
 # Discussion
