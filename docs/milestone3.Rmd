@@ -47,21 +47,15 @@ This dataset explains the medical insurance costs of a small sample of the USA p
 ```{r load the data, echo=FALSE}
 # import the data 
 costs <- read_csv(
-  here("data", "processed", "processed_data.csv"),
+  here("data", "raw", "data.csv"),
   col_types = cols(
-    age = col_double(),
-  sex = col_character(),
-  bmi = col_double(),
-  children = col_double(),
-  smoker = col_character(),
-  region = col_character(),
-  sex_dummy = col_double(),
-  smoker_dummy = col_double(),
-  southeast = col_double(),
-  southwest = col_double(),
-  northwest = col_double(),
-  northeast = col_double(),
-  charges = col_double()
+    age = col_integer(),
+    sex = readr::col_factor(),
+    bmi = col_double(),
+    children = col_integer(),
+    smoker = readr::col_factor(),
+    region = readr::col_factor(),
+    charges = col_double()
   )
 )
 ```
@@ -85,18 +79,16 @@ Here is a summary of the dataset, and the values of each variable (Table \@ref(t
 
 ```{r summary, echo=FALSE}
 options(knitr.kable.NA="")
-kable(summary(costs %>% select(-sex_dummy,-smoker_dummy,-northeast,-northwest,-southeast,-southwest)), caption = "summary of the dataset")
+kable(summary(costs), caption = "summary of the dataset")
 ```
 ```{r correlation, include=FALSE}
-costs_correlations <- costs %>%
-    select(-sex, -smoker, -region) %>% # remove the columns that are not dummy variables
-    cor()
+correlation <- readRDS("../data/explore/correlation.rds")
 ```
 
 Next, we want to inspect the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
 In order to analyze correlation between variables, the ones that are categorical with two categories, are translated into binery vectors. The only categorical variable with more than two categories, is region. We split this variable into four different binery vectors, each indicating if the sample data has category (1) or not (0).
 
-After using dummy variables for sex, smoker, and region, according to the correlogram show in Figure \@ref(fig:corrplot-png), smoker and charges has the strongest correlation of `r round(costs_correlations[5,10],2)`. No high collinearity between independent variables is observed.
+After using dummy variables for sex, smoker, and region, according to the correlogram show in Figure \@ref(fig:corrplot-png), smoker and charges has the strongest correlation of `r round(correlation[5,10],2)`. No high collinearity between independent variables is observed.
 
 
 ```{r corrplot-png, echo = FALSE, fig.cap="Correlation plot", fig.align = 'center', out.width='75%', out.height='75%'}
@@ -154,6 +146,7 @@ In Table \@ref(tab:results) you can find a number of examples of the data with t
 
 ```{r results, echo=FALSE}
 kable(head(augmented), caption = "Estimated values their statistics")
+#kableExtra::kable_styling(kable(head(augmented),"latex", caption = "Estimated values their statistics"),latex_options = "hold_position")
 ```
 
 # Discussion

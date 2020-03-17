@@ -4,7 +4,7 @@
 # Description of the script and the command-line arguments
 "This script conducts exploratory data analysis with the processed data. The plots are saved to the specified directory.
 
-Usage: explore_data.R --processed_data=<processed_data> --path_to_images=<path>" -> doc
+Usage: explore_data.R --processed_data=<processed_data> --path_to_images=<path> --path_to_data=<path>" -> doc
 
 # load packages
 suppressMessages(library(tidyverse))
@@ -19,7 +19,7 @@ suppressMessages(library(here))
 option <- docopt(doc)
 
 # Main function
-main <- function(processed_data, path) {
+main <- function(processed_data, image_path,data_path) {
   
   # check if command-line files exist: the processed data
   if (!file.exists(processed_data)) {
@@ -29,15 +29,21 @@ main <- function(processed_data, path) {
   # if the path given includes the root directory, then, rewrite path to equal to 'relative' directory path from the root
   # this way the use of here can be used in the rest of the script
   root <- paste0(here(),"/")
-  if (str_detect(path,root)) {
-    path <- paste0(str_remove(path,root))
+  if (str_detect(image_path,root)) {
+    image_path <- paste0(str_remove(image_path,root))
+  }
+  
+  if (str_detect(data_path,root)) {
+    data_path <- paste0(str_remove(data_path,root))
   }
   
   # if the directory does not exist, create the directory with parent directories
-  if (!dir.exists(here(path))) {
-    dir.create(here(path), recursive = TRUE)
+  if (!dir.exists(here(image_path))) {
+    dir.create(here(image_path), recursive = TRUE)
   }
-  
+  if (!dir.exists(here(data_path))) {
+    dir.create(here(data_path), recursive = TRUE)
+  }
   # read in the processed data, each column corresponding to a type
   processed_data_in <- read_csv(processed_data,
            col_types = cols(
@@ -60,12 +66,12 @@ main <- function(processed_data, path) {
   costs_correlations <- processed_data_in %>%
     select(-sex, -smoker, -region) %>% # remove the columns that are not dummy variables
     cor()
-  
+  saveRDS(costs_correlations, paste0(here(data_path), "/correlation.rds"))
   # round the values to 2 decimal places
   costs_correlations <- round(costs_correlations,2)
   
   # save and plot the corrplot
-  png(filename = paste(path,"corrplot.png",sep = "/"))
+  png(filename = paste(image_path,"corrplot.png",sep = "/"))
   corrplot(costs_correlations,
            type = "upper",
            method = "color",
@@ -88,7 +94,7 @@ main <- function(processed_data, path) {
     labs(x = 'BMI',
          y = 'Charges (USD)') +
     scale_y_continuous(labels = dollar) +
-    ggsave(filename = paste(here(path),"facet.png",sep = "/"), device = "png")
+    ggsave(filename = paste(here(image_path),"facet.png",sep = "/"), device = "png")
   
   # plot age histogram
   raw_data_in %>% 
@@ -106,7 +112,7 @@ main <- function(processed_data, path) {
     ylab("Count")+
     theme_bw() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-    ggsave(filename = paste(here(path), "age_histogram.png", sep = "/"), device = "png")
+    ggsave(filename = paste(here(image_path), "age_histogram.png", sep = "/"), device = "png")
   
   # plot stacked bar chart
   raw_data_in %>%
@@ -122,11 +128,11 @@ main <- function(processed_data, path) {
                 filter(sex == "female") , mapping = aes(fill= NULL, x = region, y = sum + 20, label=paste( percent,"% female", sep="")))+
     theme_bw() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-    ggsave(filename = paste(here(path), "region_barchart.png", sep = "/"), device = "png")
+    ggsave(filename = paste(here(image_path), "region_barchart.png", sep = "/"), device = "png")
   
   # print successful message
-  print(glue("The four plots have been successfully saved in the {path} directory."))
+  print(glue("The four plots have been successfully saved in the {image_path} directory."))
 }
 
 # call main function 
-main(option$processed_data, option$path_to_images)
+main(option$processed_data, option$path_to_images, option$path_to_data)
