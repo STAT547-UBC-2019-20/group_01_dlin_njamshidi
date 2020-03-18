@@ -26,10 +26,11 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
     - `gridExtra`
     - `png`
     - `tinytex`
+    - `bookdown`
     
     To install all these packages in your R Console:
     ```
-    install.packages(c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","purrr","grid","gridExtra","png","tinytex"))
+    install.packages(c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","purrr","grid","gridExtra","png","tinytex","bookdown"))
     ```
     
 ### Running the whole pipeline
