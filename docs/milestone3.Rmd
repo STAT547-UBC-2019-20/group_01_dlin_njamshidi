@@ -5,10 +5,8 @@ date: "14/03/2020"
 output: 
   bookdown::html_document2:
     toc: true
-    keep_md: true
   bookdown::pdf_document2:
     toc: true
-
 ---
 
 ```{r setup, include=FALSE}
@@ -83,11 +81,14 @@ Here is a summary of the dataset, and the values of each variable (Table \@ref(t
 options(knitr.kable.NA="")
 kable(summary(costs), caption = "summary of the dataset")
 ```
+```{r correlation, include=FALSE}
+correlation <- readRDS("../data/explore/correlation.rds")
+```
 
 Next, we want to inspect the data set to see if there is any correlation between the variables. From now on we want to consider charges as our dependent variable.
 In order to analyze correlation between variables, the ones that are categorical with two categories, are translated into binery vectors. The only categorical variable with more than two categories, is region. We split this variable into four different binery vectors, each indicating if the sample data has category (1) or not (0).
 
-After using dummy variables for sex, smoker, and region, according to the correlogram show in Figure \@ref(fig:corrplot-png), smoker and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.
+After using dummy variables for sex, smoker, and region, according to the correlogram show in Figure \@ref(fig:corrplot-png), smoker and charges has the strongest correlation of `r round(correlation[5,10],2)`. No high collinearity between independent variables is observed.
 
 
 ```{r corrplot-png, echo = FALSE, fig.cap="Correlation plot", fig.align = 'center', out.width='75%', out.height='75%'}
@@ -145,13 +146,14 @@ In Table \@ref(tab:results) you can find a number of examples of the data with t
 
 ```{r results, echo=FALSE}
 kable(head(augmented), caption = "Estimated values their statistics")
+#kableExtra::kable_styling(kable(head(augmented),"latex", caption = "Estimated values their statistics"),latex_options = "hold_position")
 ```
 
 # Discussion
 
 Based on the "Residuals vs Fitted" and "Real vs Fitted" graphs, we can see that the model fairly works for charges under 2000\$. There are three clusters in these graphs with similar slopes. There is a gap between charges under and over 2000\$ which might be relevant to the weak estimates of the model over 2000\$.
-If we apply linear regression on each cluster we will get similar coefficients for the variables with different intercepts. Each cluster might be attributed to a different desease group and in each of them the impacts of age, smoking, bmi and etc. are similar.
+If we apply linear regression on each cluster we will get similar coefficients for the variables with different intercepts. Each cluster might be attributed to a different disease group and in each of them the impacts of age, smoking, bmi and etc. are similar.
 
 # Conclusion
 
-We were able to do a linear regression on our dataset. The results show that there is an association relationship between age, bmi, number of children, and smoking with medical charges. interestingly, gender does not affect medical charges. Diagnostic plots reveal that the data is not completely normally distributed. Moreover, three clusters of records are present in the dataset, which might be representative of different types of deseases.
+We were able to do a linear regression on our dataset. The results show that there is an association relationship between age, bmi, number of children, and smoking with medical charges. The estimated coefficients for these variables are all positive, meaning that higher age, bmi, number of children and/or being a smoker increase medical charges. interestingly, gender does not affect medical charges. Diagnostic plots reveal that the data is not completely normally distributed. Moreover, three clusters of records are present in the dataset, which might be representative of different types of diseases.

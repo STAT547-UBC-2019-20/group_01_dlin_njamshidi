@@ -26,10 +26,11 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
     - `gridExtra`
     - `png`
     - `tinytex`
+    - `bookdown`
     
     To install all these packages in your R Console:
     ```
-    install.packages(c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","purrr","grid","gridExtra","png","tinytex"))
+    install.packages(c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","purrr","grid","gridExtra","png","tinytex","bookdown"))
     ```
     
 ### Running the whole pipeline
@@ -56,7 +57,7 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
     ```
 1. Perform exploratory analysis
     ```
-    make images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png
+    make images/age_histogram.png images/corrplot.png images/facet.png images/region_barchart.png data/explore/correlation.rds
     ```
 1. Perform linear regression
     ```
@@ -80,7 +81,7 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
         ```
     1. Conduct exploratory data analysis
         ```
-        Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
+        Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images" --path_to_data="data/explore"
         ```
     1. Conduct linear regression
         ```
