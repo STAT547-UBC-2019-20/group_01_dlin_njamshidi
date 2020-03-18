@@ -76,6 +76,10 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
 ### Running each R script individually
 
 1. Run the following scripts (in order) with the appropriate arguments specified
+    1. Install required packages
+        ```
+        Rscript scripts/install.R
+        ```
     1. Download the data
         ```
         Rscript scripts/load_data.R --data_to_url="https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv"
