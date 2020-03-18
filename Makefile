@@ -3,7 +3,7 @@
 
 .PHONY: all clean install
 
-all: install docs/milestone3.html docs/milestone3.pdf
+all: clean install docs/milestone3.html docs/milestone3.pdf
 
 # install required packages
 install:
