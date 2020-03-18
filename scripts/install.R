@@ -15,7 +15,7 @@ if (length(indices) != 0) {
   uninstalled <- required_packages[indices]
   print("Installing the following packages:")
   print(uninstalled)
-  install.packages(uninstalled, dependencies = TRUE)
+  install.packages(uninstalled, dependencies = TRUE, repo="http://cran.rstudio.com/")
 } else {
   print("All required packages are already installed!")
 }
