@@ -28,9 +28,9 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
     - `tinytex`
     - `bookdown`
     
-    To install all these packages in your R Console:
+    To install all these packages:
     ```
-    install.packages(c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","purrr","grid","gridExtra","png","tinytex","bookdown"))
+    make install
     ```
     
 ### Running the whole pipeline
@@ -38,6 +38,11 @@ Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_n
 1. Clean the repository to undo any residual incomplete analysis
     ```
     make clean
+    ```
+
+1. Install all required packages:
+    ```
+    make install
     ```
   
 1. Run the entire analysis pipeline

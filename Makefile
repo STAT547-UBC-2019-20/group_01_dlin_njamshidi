@@ -3,7 +3,7 @@
 
 .PHONY: all clean install
 
-all: docs/milestone3.html docs/milestone3.pdf
+all: install docs/milestone3.html docs/milestone3.pdf
 
 # install required packages
 install:
@@ -11,7 +11,6 @@ install:
 	
 # Download the raw data from an URL
 data/raw/data.csv: scripts/load_data.R scripts/install.R
-	make install
 	Rscript scripts/load_data.R --data_to_url="https://gist.githubusercontent.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41/raw/d42d226d0dd64e7f5395a0eec1b9190a10edbc03/Medical_Cost.csv"
 	
 # Process the data for analysis
