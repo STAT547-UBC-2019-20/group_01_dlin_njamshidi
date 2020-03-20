@@ -1,10 +1,33 @@
 # Group 1: Medical Expenses
 
+## Table of Contents
+1. [Introduction](#introduction)
+1. [Usage](#usage)
+    1. [Prerequisites](#prerequisites)
+    1. [Running the whole pipeline](#running-the-whole-pipeline)
+    1. [Running each step using the Makefile](#running-each-step-using-the-makefile)
+    1. [Running each R script individually](#running-each-r-script-individually)
+1. [Milestones](#milestones)
+    1. [Milestone 1](#milestone-1)
+    1. [Milestone 2](#milestone-2)
+    1. [Milestone 3](#milestone-3)
+    1. [Milestone 4](#milestone-4)
+1. Final Report
+    1. [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html)
+    1. [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf)
+    <!-- 1. [Dashboard]() -->
+1. [Dashboard Proposal](#dashboard-proposal)
+    1. [Description](#description)
+    1. [Usage Scenario](#usage-scenario)
+    1. [Sketch](#sketch)
+
+## Introduction
+
 This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nima Jamshidi. The dataset we have chosen to work with is the "Medical Expenses" dataset used in the book [Machine Learning with R](https://www.amazon.com/Machine-Learning-R-Brett-Lantz/dp/1782162143), by Brett Lantz. This dataset was extracted from [Kaggle](https://www.kaggle.com/mirichoi0218/insurance/home) by Github user [\@meperezcuello](https://gist.github.com/meperezcuello). The information about this dataset has been extracted from their [GitHub Gist](https://gist.github.com/meperezcuello/82a9f1c1c473d6585e750ad2e3c05a41).
 
-Final Report Draft: [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html) | [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf)
 ## Usage
 
+### Prerequisites
 1. Clone this repo
     ```
     git clone https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi.git
@@ -109,9 +132,13 @@ For Milestone 1, you can find our initial explorary data analysis in the link be
 
 https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone1.html
 
+Our progress is outlined in issue [#4](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/4).
+
 ### Milestone 2
 
 For Milestone 2, you can find the scripts to load, process, and conduct exploratory data analysis in the [`scripts/`](scripts/) directory. The first draft of our report can be found [here](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone2.html).
+
+Our progress is outlined in issue [#8](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/8).
 
 1. `load_data.R`
     ```
@@ -128,9 +155,11 @@ For Milestone 2, you can find the scripts to load, process, and conduct explorat
     Rscript scripts/explore_data.R --processed_data="data/processed/processed_data.csv" --path_to_images="images"
     ```
 
-### Miletone 3
+### Milestone 3
 
 For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html) and [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf).
+
+Our progress is outlined in issue [#24](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/24).
 
 1. `linear_model.R`
     ```
@@ -146,3 +175,21 @@ For Milestone3, the script to knit the final report is [`scripts/knit.R`](script
     ```
     make
     ```
+
+### Milestone 4
+
+For Milestone4, we have addressed the feedback from TAs (issues [#9](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/9) and [#25](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/25)), and from our peers (issues [#35](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/35) and [#39](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/39)). Of the feedback in these four issues, all were implemented except for one, which has been filed under future work in issue [#41](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/41).
+
+Our progress is outlined in issue [#40](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/40).
+
+## Dashboard Proposal
+
+### Description
+PLACEHOLDER
+
+### Usage Scenario
+PLACEHOLDER
+
+### Sketch
+PLACEHOLDER
+
