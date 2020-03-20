@@ -1,4 +1,4 @@
-# Group 1: Medical Expenses
+# Group 1: Factors Affecting Medical Expenses
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -191,5 +191,5 @@ PLACEHOLDER
 PLACEHOLDER
 
 ### Sketch
-PLACEHOLDER
+![](images/sketch_page1.png)
 
