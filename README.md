@@ -50,6 +50,17 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `png`
     - `tinytex`
     - `bookdown`
+    - `fiery`
+    - `routr`
+    - `reqres`
+    - `htmltools`
+    - `base64enc`
+    - `plotly`
+    - `mime`
+    - `crayon`
+    - `devtools`
+    - `dashR`
+    - `testthat`
     
     To install all these packages:
     ```
