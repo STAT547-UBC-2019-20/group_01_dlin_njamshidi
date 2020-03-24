@@ -196,7 +196,8 @@ Our progress is outlined in issue [#40](https://github.com/STAT547-UBC-2019-20/g
 ## Dashboard Proposal
 
 ### Description
-PLACEHOLDER
+This app has two main pages. The user can choose between an exploration page or a page which shows the results of linear regression conducted on the dataset. On the first page, the user can find 4 graphs, each of which showing some statistics regarding the dataset. The upper left graph shows the correlations between dataset factors. The user can choose between color, shade, circle or pie as the style that is going to be used in the graph to display the correlations. Since the correlation matrix is symmetrical, the user can change the appearance of the graph to be a full, upper, or lower triangular matrix plus the option to hide diagonal values (equal to 1). Next to this graph, is a faceted plot that shows how BMI and charges are distributed for each region and sex. The user can choose a factor between smoker, age, and children to be represented in colors to make the most out of this graph. The left and right graphs at the bottom of the page show the distribution of the data among the age groups and regions respectively. They are color-coded based on the sex, smoker, or children factors chosen by the user.
+On the second page, at the top of the page the user can choose the factors they want to be used in the linear regression and see the results below it. The r-squared value and the diagnostics graphs would be shown there. At the bottom of this page, the user can enter their information required for each factor to see how much the linear regression model would estimate their medical charges.
 
 ### Usage Scenario
 PLACEHOLDER
