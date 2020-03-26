@@ -13,6 +13,7 @@ suppressMessages(library(psych))
 suppressMessages(library(hablar))
 suppressMessages(library(glue))
 suppressMessages(library(here))
+suppressMessages(library(stringr))
 
 # Take in command-line arguments
 opt <- docopt(doc)
@@ -40,8 +41,8 @@ main <- function(path, name) {
   
   # wrangle the data to include dummy variables for factors
   data <- data %>%
-    mutate(sex_dummy = as.numeric(sex),
-           smoker_dummy = as.numeric(fct_relevel(smoker, "no"))) %>%
+    mutate(sex_dummy = as.integer(sex),
+           smoker_dummy = as.integer(fct_relevel(smoker, "no"))) %>%
     cbind(as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>%
     select(-charges) %>%
     cbind(charges = data$charges) %>%
@@ -54,8 +55,12 @@ main <- function(path, name) {
       age >=60 & age <= max(age) ~ glue("60-{max(age)}")
     ))
   
+  data$age_range <- as.factor(data$age_range)
   # write the csv file out to specified file name to data/processed directory
+  
   write_csv(data, here("data", "processed", name))
+  name_noext <- str_remove(name,".csv")
+  saveRDS(data, file = here("data","processed",glue("{name_noext}.rds")))
   
   # print out success message
   print(
