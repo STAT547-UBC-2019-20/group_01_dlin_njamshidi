@@ -12,7 +12,6 @@ suppressMessages(library(docopt))
 suppressMessages(library(corrplot))
 suppressMessages(library(glue))
 suppressMessages(library(scales))
-suppressMessages(library(stringr))
 suppressMessages(library(here))
 
 # Read in the command line arguments
