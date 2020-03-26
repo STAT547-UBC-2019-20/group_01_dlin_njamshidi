@@ -44,7 +44,15 @@ main <- function(path, name) {
            smoker_dummy = as.numeric(fct_relevel(smoker, "no"))) %>%
     cbind(as_tibble(psych::dummy.code(data$region)) %>% hablar::convert(hablar::int(1:4))) %>%
     select(-charges) %>%
-    cbind(charges = data$charges)
+    cbind(charges = data$charges) %>%
+    mutate(age_range = case_when(
+      age < 20 ~ glue("{min(age)}-20"),
+      age >= 20 & age < 30 ~ "20-30",
+      age >=30 & age < 40 ~ "30-40",
+      age >=40 & age < 50 ~ "40-50",
+      age >=50 & age < 60 ~ "50-60",
+      age >=60 & age <= max(age) ~ glue("60-{max(age)}")
+    ))
   
   # write the csv file out to specified file name to data/processed directory
   write_csv(data, here("data", "processed", name))

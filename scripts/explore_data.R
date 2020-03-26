@@ -59,17 +59,17 @@ main <- function(processed_data, image_path,data_path) {
              southwest = col_integer(),
              northwest = col_integer(),
              northeast = col_integer(),
-             charges = col_double())
+             charges = col_double(),
+             age_range = readr::col_factor())
   )
   
   # calculate the correlation for the processed data
   costs_correlations <- processed_data_in %>%
-    select(-sex, -smoker, -region) %>% # remove the columns that are not dummy variables
+    select(-sex, -smoker, -region, -age_range) %>% # remove the columns that are not dummy variables
     cor()
-  saveRDS(costs_correlations, paste0(here(data_path), "/correlation.rds"))
   # round the values to 2 decimal places
   costs_correlations <- round(costs_correlations,2)
-  
+  saveRDS(costs_correlations, paste0(here(data_path), "/correlation.rds"))
   # save and plot the corrplot
   png(filename = paste(image_path,"corrplot.png",sep = "/"))
   corrplot(costs_correlations,
@@ -83,7 +83,7 @@ main <- function(processed_data, image_path,data_path) {
   
   # filter the processed_data for the ones without dummy variables to resemble 'raw data'
   raw_data_in <- processed_data_in %>%
-    select(c(age, sex, bmi, children, smoker, region, charges))
+    select(c(age, sex, bmi, children, smoker, region, charges, age_range))
 
   # plot and save faceted plot
   ggplot(raw_data_in, aes(x=bmi, y=charges, colour = smoker)) + 
@@ -98,14 +98,6 @@ main <- function(processed_data, image_path,data_path) {
   
   # plot age histogram
   raw_data_in %>% 
-    mutate(age_range = case_when(
-      age < 20 ~ glue("{min(age)}-20"),
-      age >= 20 & age < 30 ~ "20-30",
-      age >=30 & age < 40 ~ "30-40",
-      age >=40 & age < 50 ~ "40-50",
-      age >=50 & age < 60 ~ "50-60",
-      age >=60 & age <= max(age) ~ glue("60-{max(age)}")
-    )) %>%
     ggplot(aes(x=age_range,fill=sex)) +
     geom_bar(position = "dodge") +
     xlab("Age Ranges") +
