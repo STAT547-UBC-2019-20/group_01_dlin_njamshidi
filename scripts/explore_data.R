@@ -65,7 +65,8 @@ main <- function(processed_data, image_path,data_path) {
   
   # calculate the correlation for the processed data
   costs_correlations <- processed_data_in %>%
-    select(-sex, -smoker, -region, -age_range) %>% # remove the columns that are not dummy variables
+    select(-sex, -smoker, -region, -age_range) %>% # remove the columns that are not dummy variables %>%
+    rename(sex = sex_dummy, smoker = smoker_dummy) %>%
     cor()
   # round the values to 2 decimal places
   costs_correlations <- round(costs_correlations,2)
