@@ -196,11 +196,13 @@ Our progress is outlined in issue [#40](https://github.com/STAT547-UBC-2019-20/g
 ## Dashboard Proposal
 
 ### Description
-PLACEHOLDER
+This app has two main pages. The user can choose between an exploration page or a page which shows the results of linear regression conducted on the dataset. On the first page, the user can find 4 graphs, each of which showing some statistics regarding the dataset. The upper left graph shows the correlations between dataset factors. The user can choose between color, shade, circle or pie as the style that is going to be used in the graph to display the correlations. Since the correlation matrix is symmetrical, the user can change the appearance of the graph to be a full, upper, or lower triangular matrix plus the option to hide diagonal values (equal to 1). Next to this graph, is a faceted plot that shows how BMI and charges are distributed for each region and sex. The user can choose a factor between smoker, age, and children to be represented in colors to make the most out of this graph. The left and right graphs at the bottom of the page show the distribution of the data among the age groups and regions respectively. They are color-coded based on the sex, smoker, or children factors chosen by the user.
+On the second page, at the top of the page the user can choose the factors they want to be used in the linear regression and see the results below it. The r-squared value and the diagnostics graphs would be shown there. At the bottom of this page, the user can enter their information required for each factor to see how much the linear regression model would estimate their medical charges.
 
 ### Usage Scenario
-PLACEHOLDER
+Ron is taking The fundamentals of Public Health Care as an undergraduate course. As an assignment, he needs to estimate the medical expenses his group of classmates has. He should send a form to his classmates asking for information; however, he is not sure what information to request from them. He logs in the Medical Expenses app to learn more about the factors affecting medical expenses. He can look at the visualizations on the exploration page and grasp an idea of what the dataset looks like. He can learn about the correlation between the factors included in the dataset. He can look at the distribution of the dataset among various variables on this page. He might want to check if different sex would have visually distinctive clusters in the BMI vs. charges graph. He can look at the bar charts to see what type of distribution do the factors follow in this dataset. Next, he can go to the linear regression page and play with the factors to find which combination of factors can better explain the charges. In the end, he can put his own information, to check if the regression model based on the available variables can estimate his expenses well or not. He might decide to include some of the variables in this dataset and add other variables such as occupation, health status of parents and etc. in his form. 
 
 ### Sketch
 ![](images/sketch_page1.png)
+***
 ![](images/sketch_page2.png)
