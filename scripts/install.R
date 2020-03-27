@@ -25,11 +25,15 @@ if (length(indices) != 0) {
   
   if ("devtools" %in% installed.packages()) {
     if (!all(c("dash", "dashCoreComponents","dashHtmlComponents", "dashTable") %in% installed.packages())) {
-      print("installing DashR from GitHub...")
+      print("Installing DashR from GitHub...")
       devtools::install_github('plotly/dashR', upgrade = TRUE)
-      print("Checking if DashR was installed correctly...")
-      source(here::here("scripts","check_dash.R"))
     }
+    if (!"dashDaq" %in% installed.packages()) {
+      print("Installing dashDaq from GitHub...")
+      devtools::install_github('plotly/dash-daq', upgrade = TRUE)
+    }
+    print("Checking if DashR was installed correctly...")
+    source(here::here("scripts","check_dash.R"))
   }
 } else {
   print("All required packages are already installed!")
