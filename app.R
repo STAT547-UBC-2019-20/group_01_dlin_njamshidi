@@ -59,7 +59,7 @@ make_age_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select = 
   } else if (theme_select == "bw") {
     p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else {
-    p1 <- p1 + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme(axis.text = element_text(size = 12))
   }
   
   ggplotly(p1)
@@ -93,6 +93,8 @@ make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select 
     p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12))
   } else if (theme_select == "bw") {
     p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12))
+  } else {
+    p2 <- p2 + theme(axis.text = element_text(size = 12))
   }
   
   ggplotly(p2)
@@ -124,13 +126,13 @@ make_stacked_bar <- function(breakdown = "smoker", viridis = FALSE, theme_select
   } else if (theme_select == "bw") {
     p3 <- p3 + theme_bw() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else {
-    p3 <- p3  +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),axis.text = element_text(size =12))
+    p3 <- p3  +  theme(axis.text = element_text(size =12))
   }
   
   ggplotly(p3)
 }
 
-make_cor_plot <- function(layout = "lower", diag = TRUE, viridis = FALSE, labels = TRUE, theme_select = "minimal"){
+make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, labels = TRUE, theme_select = "minimal"){
   costs <- readRDS(here("data","explore","correlation.rds"))
   
   # Get lower
@@ -303,7 +305,7 @@ corr_layout <- dccRadioItems(id = 'layout_button',
                              value = "lower")
 
 corr_diag <- daqBooleanSwitch(id = 'diagonal_toggle',
-                              on = TRUE,
+                              on = FALSE,
                               label = "Diagonal Toggle:",
                               labelPosition = "top")
 
@@ -350,8 +352,19 @@ colour_dropdown <- htmlDiv(
   )
 )
 
+reset <- htmlButton("Reset", id = 'reset_button', n_clicks = 0)
+
+reset_button <- htmlDiv(
+  list(
+    reset
+  ),
+  style = list('display' = 'flex', 'justify-content' = 'flex-end')
+)
+
 master_options <- htmlDiv(
   list(
+    reset_button,
+    htmlBr(),
     viridis_toggle,
     theme_dropdown,
     colour_dropdown
@@ -387,9 +400,14 @@ app$callback(
   output = list(id = 'age', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
                 input(id = 'viridis_button', property='on'),
-                input(id = 'themes', property='value')),
-  function(breakdown, viridis, theme) {
-    make_age_plot(breakdown, viridis, theme)
+                input(id = 'themes', property='value'),
+                input(id = 'reset_button', property = 'n_clicks')),
+  function(breakdown, viridis, theme, clicks) {
+    if (clicks > 0 ) {
+      make_age_plot()
+    } else {
+      make_age_plot(breakdown, viridis, theme)
+    }
   }
 )
 
@@ -397,9 +415,14 @@ app$callback(
   output = list(id = 'facet', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
                 input(id = 'viridis_button', property='on'),
-                input(id = 'themes', property='value')),
-  function(breakdown, viridis, theme) {
-    make_facet_plot(breakdown, viridis, theme)
+                input(id = 'themes', property='value'),
+                input(id = 'reset_button', property = 'n_clicks')),
+  function(breakdown, viridis, theme, clicks) {
+    if (clicks > 0) {
+      make_facet_plot()
+    } else {
+      make_facet_plot(breakdown, viridis, theme)
+    }
   }
 )
 
@@ -407,9 +430,14 @@ app$callback(
   output = list(id = 'stacked', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
                 input(id = 'viridis_button', property='on'),
-                input(id = 'themes', property='value')),
-  function(breakdown, viridis, theme) {
-    make_stacked_bar(breakdown, viridis,theme)
+                input(id = 'themes', property='value'),
+                input(id = 'reset_button', property='n_clicks')),
+  function(breakdown, viridis, theme, clicks) {
+    if (clicks > 0) {
+      make_stacked_bar()
+    } else {
+      make_stacked_bar(breakdown, viridis, theme)
+    }
   }
 )
 
@@ -419,12 +447,28 @@ app$callback(
                 input(id = 'diagonal_toggle', property = 'on'),
                 input(id = 'viridis_button', property='on'),
                 input(id = 'label_toggle', property='on'),
-                input(id = 'themes', property='value')),
-  function(layout, diag, viridis,label,theme) {
+                input(id = 'themes', property='value'),
+                input(id = 'reset_button', property = 'n_clicks')),
+  function(layout, diag, viridis,label,theme, clicks) {
+    if (clicks > 0 ) {
+      make_cor_plot()
+    } else {
     make_cor_plot(layout,diag,viridis,label, theme)
+    }
   }
 )
 
+
+
+# app$callback(
+#   output = list(id = 'label_toggle', property = 'on'),
+#   params = list(input(id = 'reset_button', property='n_clicks')),
+#   function(clicks) {
+#     if (clicks > 0 ) {
+#       # reset the label_toggle property 'on' = FALSE
+#     }
+#   }
+# )
 
 ## Run app ----
 app$run_server(debug=TRUE)
@@ -433,6 +477,7 @@ app$run_server(debug=TRUE)
 # rstudioapi::viewer("http://127.0.0.1:8050")
 
 ## TO DO -----
+# add reset button
 # organize into tabs
 # organize plots into a layout
 # add sidebars for selections, etc
