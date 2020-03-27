@@ -32,34 +32,36 @@ vars <- tibble(label = c("Age Range", "Sex", "Smoking Status", "USA Region"),
 themes <- tibble(label = c("Gray", "Black and white", "Light", "Dark", "Minimal", "Classic", "Default"),
                  value = c("gray", "bw", "light", "dark", "minimal", "classic", "default"))
 
-make_age_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
+make_age_plot <- function(xaxis = "age_range", breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
   
   title <- vars$label[vars$value == breakdown]
+  xaxis_val <- vars$label[vars$value == xaxis]
+  
   p1 <- data %>% 
-    ggplot(aes(x=age_range,fill=!!sym(breakdown))) +
+    ggplot(aes(x=!!sym(xaxis),fill=!!sym(breakdown))) +
     geom_bar(position = "dodge") +
-    xlab("Age Ranges") +
+    xlab(xaxis_val) +
     ylab("Count") +
-    ggtitle(glue("Distribution of {title} Across Age Ranges"))
+    ggtitle(glue("Distribution of {title} Across {xaxis_val}"))
   
   if (viridis == TRUE) {
     p1 <- p1 + scale_fill_viridis(discrete=TRUE)
   }
   
   if(theme_select == "minimal") {
-    p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
+    p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "gray") {
-    p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
+    p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "classic") {
-    p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
+    p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "light") {
-    p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
+    p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "dark") {
-    p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
+    p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "bw") {
-    p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
+    p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else {
-    p1 <- p1 + theme(axis.text = element_text(size = 12))
+    p1 <- p1 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   }
   
   ggplotly(p1)
@@ -82,54 +84,22 @@ make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select 
   }
   
   if(theme_select == "minimal") {
-    p2 <- p2 + theme_minimal() + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme_minimal() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "gray") {
-    p2 <- p2 + theme_gray() + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme_gray() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "classic") {
-    p2 <- p2 + theme_classic() + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme_classic() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "light") {
-    p2 <- p2 + theme_light() + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme_light() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "dark") {
-    p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else if (theme_select == "bw") {
-    p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   } else {
-    p2 <- p2 + theme(axis.text = element_text(size = 12))
+    p2 <- p2 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   }
   
   ggplotly(p2)
-}
-
-make_stacked_bar <- function(breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
-  title <- vars$label[vars$value==breakdown]
-  p3 <- data %>%
-    group_by(!!sym(breakdown), region) %>%
-    summarize(count = n()) %>%
-    ggplot(aes(fill = !!sym(breakdown), x = region, y=count)) +
-    geom_bar(position="stack", stat="identity") +
-    ggtitle(glue("Distribution of {title} Across the Four Regions"))
-  
-  if (viridis == TRUE) {
-    p3 <- p3 + scale_fill_viridis(discrete = TRUE)
-  }
-  
-  if(theme_select == "minimal") {
-    p3 <- p3 + theme_minimal() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
-  } else if (theme_select == "gray") {
-    p3 <- p3 + theme_gray() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
-  } else if (theme_select == "classic") {
-    p3 <- p3 + theme_classic() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
-  } else if (theme_select == "light") {
-    p3 <- p3 + theme_light() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
-  } else if (theme_select == "dark") {
-    p3 <- p3 + theme_dark() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
-  } else if (theme_select == "bw") {
-    p3 <- p3 + theme_bw() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
-  } else {
-    p3 <- p3  +  theme(axis.text = element_text(size =12))
-  }
-  
-  ggplotly(p3)
 }
 
 make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, labels = TRUE, theme_select = "minimal"){
@@ -156,12 +126,6 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
   } else {
     melted_costs <- melt(costs)
   }
-  # melted_costs <-
-  #   case_when(
-  #     layout == "upper" ~ melt(get_upper_tri(costs), na.rm = TRUE),
-  #     layout == "lower" ~ melt(get_lower_tri(costs), na.rm = TRUE),
-  #     layout == "full" ~ melt(costs)
-  #   )
   
   if (diag == FALSE) {
     melted_costs <- rm_diag(melted_costs)
@@ -210,7 +174,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   } else if (theme_select == "gray") {
     p4 <- p4 + theme_gray() + theme(axis.text.x = element_text(
       angle = 45,
@@ -218,7 +182,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   } else if (theme_select == "classic") {
     p4 <- p4 + theme_classic() + ttheme(axis.text.x = element_text(
       angle = 45,
@@ -226,7 +190,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   } else if (theme_select == "light") {
     p4 <- p4 + theme_light() + theme(axis.text.x = element_text(
       angle = 45,
@@ -234,7 +198,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   } else if (theme_select == "dark") {
     p4 <- p4 + theme_dark() + theme(axis.text.x = element_text(
       angle = 45,
@@ -242,7 +206,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   } else if (theme_select == "bw") {
     p4 <- p4 + theme_bw() + theme(axis.text.x = element_text(
       angle = 45,
@@ -250,7 +214,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   } else {
     p4 <- p4 + theme(axis.text.x = element_text(
       angle = 45,
@@ -258,7 +222,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
       size = 12,
       hjust = 1
     ),
-    axis.text.y = element_text(size =12)) 
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   }
     
   ggplotly(p4)
@@ -267,21 +231,6 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
 ## Assign components to variables ----
 title <- htmlH1("Factors Affecting Medical Expenses")
 authors <- htmlH4("By Diana Lin & Nima Jamshidi")
-
-header <- htmlDiv(
-  list(
-    title,
-    authors
-  ),
-  style = list(
-    backgroundColor = '#AF33FF', ## COLOUR OF YOUR CHOICE
-    textAlign = 'center',
-    color = 'white',
-    margin = 5,
-    marginTop = 0
-  )
-)
-
 age_plot <- dccGraph(id = 'age', figure = make_age_plot())
 
 feat_dd <- dccDropdown(id = 'feat_dd', options = map(1:nrow(vars), function (i) list(label=vars$label[i], value=vars$value[i])), value = "smoker")
@@ -289,11 +238,11 @@ feat_dd <- dccDropdown(id = 'feat_dd', options = map(1:nrow(vars), function (i) 
 facet_plot <- dccGraph(id = 'facet', figure = make_facet_plot())
 
 viridis_button <- daqBooleanSwitch(id = 'viridis_button',
-                                  on = FALSE,
-                                  label = "Viridis Toggle:",
-                                  labelPosition = "top")
+                                   on = FALSE,
+                                   label = "Viridis Toggle:",
+                                   labelPosition = "top")
 
-stacked_plot <- dccGraph(id = 'stacked', figure = make_stacked_bar())
+# stacked_plot <- dccGraph(id = 'stacked', figure = make_stacked_bar())
 corr_plot <- dccGraph(id = 'corr', figure = make_cor_plot())
 
 corr_layout <- dccRadioItems(id = 'layout_button',
@@ -314,15 +263,6 @@ corr_label <- daqBooleanSwitch(id = 'label_toggle',
                                label = 'Label Toggle:',
                                labelPosition = "top")
 
-corr_options <- htmlDiv(
-  list(
-    corr_layout,
-    corr_diag,
-    corr_label
-  ), style = list('display' = 'flex', 'justify-content' = 'space-between')
-)
-
-
 theme_dd <-
   dccDropdown(
     id = 'themes',
@@ -330,6 +270,33 @@ theme_dd <-
       list(label = themes$label[i], value = themes$value[i])),
     value = "minimal"
   )
+
+reset <- htmlButton("Reset", id = 'reset_button', n_clicks = 0)
+
+x_dd <- dccDropdown(id = 'x_dd', options = map(1:nrow(vars), function (i) list(label=vars$label[i], value=vars$value[i])), value = "age_range")
+
+## HTML divisions ----
+header <- htmlDiv(
+  list(
+    title,
+    authors
+  ),
+  style = list(
+    backgroundColor = '#AF33FF', ## COLOUR OF YOUR CHOICE
+    textAlign = 'center',
+    color = 'white',
+    margin = 5,
+    marginTop = 0
+  )
+)
+
+corr_options <- htmlDiv(
+  list(
+    corr_layout,
+    corr_diag,
+    corr_label
+  ), style = list('display' = 'flex', 'justify-content' = 'space-between')
+)
 
 viridis_toggle <- htmlDiv(list( htmlDiv(
   list(viridis_button),
@@ -352,7 +319,13 @@ colour_dropdown <- htmlDiv(
   )
 )
 
-reset <- htmlButton("Reset", id = 'reset_button', n_clicks = 0)
+xaxis_dropdown <- htmlDiv(
+  list(
+    htmlLabel("Select the x-axis for the distribution plot:"),
+    x_dd,
+    htmlBr()
+  )
+)
 
 reset_button <- htmlDiv(
   list(
@@ -367,14 +340,15 @@ master_options <- htmlDiv(
     htmlBr(),
     viridis_toggle,
     theme_dropdown,
-    colour_dropdown
+    colour_dropdown,
+    xaxis_dropdown
   )
 )
 
 
 ## Create Dash instance ----
 
-app <- Dash$new()
+app <- Dash$new(external_stylesheets = "https://codepen.io/chriddyp/pen/bWLwgP.css")
 
 ## Specify App layout -----
 app$layout(
@@ -387,8 +361,8 @@ app$layout(
       htmlBr(),
       facet_plot,
       htmlBr(),
-      stacked_plot,
-      htmlBr(),
+#      stacked_plot,
+ #     htmlBr(),
       corr_options,
       corr_plot
     )
@@ -398,15 +372,16 @@ app$layout(
 ## App Callbacks ----
 app$callback(
   output = list(id = 'age', property='figure'),
-  params = list(input(id = 'feat_dd', property='value'),
+  params = list(input(id = 'x_dd', property = 'value'),
+                input(id = 'feat_dd', property='value'),
                 input(id = 'viridis_button', property='on'),
                 input(id = 'themes', property='value'),
                 input(id = 'reset_button', property = 'n_clicks')),
-  function(breakdown, viridis, theme, clicks) {
+  function(xaxis,breakdown, viridis, theme, clicks) {
     if (clicks > 0 ) {
       make_age_plot()
     } else {
-      make_age_plot(breakdown, viridis, theme)
+      make_age_plot(xaxis, breakdown, viridis, theme)
     }
   }
 )
@@ -422,21 +397,6 @@ app$callback(
       make_facet_plot()
     } else {
       make_facet_plot(breakdown, viridis, theme)
-    }
-  }
-)
-
-app$callback(
-  output = list(id = 'stacked', property='figure'),
-  params = list(input(id = 'feat_dd', property='value'),
-                input(id = 'viridis_button', property='on'),
-                input(id = 'themes', property='value'),
-                input(id = 'reset_button', property='n_clicks')),
-  function(breakdown, viridis, theme, clicks) {
-    if (clicks > 0) {
-      make_stacked_bar()
-    } else {
-      make_stacked_bar(breakdown, viridis, theme)
     }
   }
 )
