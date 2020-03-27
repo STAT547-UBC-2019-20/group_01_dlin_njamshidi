@@ -34,7 +34,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     ```
 
 1. Ensure the following packages are installed:
-    - `tidyverse`: `dplyr`, `tidyr`, `ggplot2`, `readr`
+    - `tidyverse`: `dplyr`, `tidyr`, `ggplot2`, `readr`, `purrr`, `stringr`
     - `here`
     - `hablar`
     - `psych`
@@ -44,7 +44,6 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `RCurl`
     - `docopt`
     - `broom`
-    - `purrr`
     - `grid`
     - `gridExtra`
     - `png`
@@ -62,6 +61,8 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `dashR`
     - `testthat`
     - `dashDaq`
+    - `viridis`
+    - `reshape2`
     
     To install all these packages:
     ```
