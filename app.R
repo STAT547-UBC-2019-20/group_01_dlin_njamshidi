@@ -4,7 +4,7 @@
 "This script creates the dashboard corresponding to our exploratory data analysis and linear regression.
 Usage: app.R"
 
-## Load libraries
+# load libraries ----
 library(dash)
 library(dashCoreComponents)
 library(dashHtmlComponents)
@@ -16,34 +16,48 @@ suppressPackageStartupMessages(library(here))
 suppressPackageStartupMessages(library(scales))
 suppressPackageStartupMessages(library(viridis))
 suppressPackageStartupMessages(library(reshape2))
+suppressPackageStartupMessages(library(glue))
 
 ## Read in data
 data <- readRDS(here("data","processed","processed_data.rds"))
 
-## Make plots
-make_age_plot <- function(breakdown = "sex", scheme = "default", theme_select = "minimal") {
+## Make plots ----
+
+# Tibble of factors
+vars <- tibble(label = c("Age Range", "Sex", "Smoking Status", "USA Region"),
+               value = colnames(data)[c(14,2,5,6)]
+)
+
+# Tibble of themes
+themes <- tibble(label = c("Gray", "Black and white", "Light", "Dark", "Minimal", "Classic", "Default"),
+                 value = c("gray", "bw", "light", "dark", "minimal", "classic", "default"))
+
+make_age_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
+  
+  title <- vars$label[vars$value == breakdown]
   p1 <- data %>% 
     ggplot(aes(x=age_range,fill=!!sym(breakdown))) +
     geom_bar(position = "dodge") +
     xlab("Age Ranges") +
-    ylab("Count")
+    ylab("Count") +
+    ggtitle(glue("Distribution of {title} Across Age Ranges"))
   
-  if (scheme == "viridis") {
+  if (viridis == TRUE) {
     p1 <- p1 + scale_fill_viridis(discrete=TRUE)
   }
   
   if(theme_select == "minimal") {
-    p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else if (theme_select == "gray") {
-    p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else if (theme_select == "classic") {
-    p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else if (theme_select == "light") {
-    p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else if (theme_select == "dark") {
-    p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else if (theme_select == "bw") {
-    p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12))
   } else {
     p1 <- p1 + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
   }
@@ -51,7 +65,7 @@ make_age_plot <- function(breakdown = "sex", scheme = "default", theme_select = 
   ggplotly(p1)
 }
 
-make_facet_plot <- function(breakdown = "smoker", scheme = "default", theme_select = "minimal") {
+make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
   
   p2 <- data %>%
     select(c(age, sex, bmi, children, smoker, region, charges, age_range)) %>%
@@ -60,60 +74,63 @@ make_facet_plot <- function(breakdown = "smoker", scheme = "default", theme_sele
     facet_grid(sex ~ region, labeller = label_both) +
     labs(x = 'BMI',
          y = 'Charges (USD)') +
-    scale_y_continuous(labels = dollar)
+    scale_y_continuous(labels = dollar) +
+    ggtitle("Exploring the Relationship Between BMI and Medical Costs")
   
-  if (scheme == "viridis") {
+  if (viridis == TRUE) {
     p2 <- p2 + scale_colour_viridis(discrete=TRUE)
   }
   
   if(theme_select == "minimal") {
-    p2 <- p2 + theme_minimal()
+    p2 <- p2 + theme_minimal() + theme(axis.text = element_text(size = 12))
   } else if (theme_select == "gray") {
-    p2 <- p2 + theme_gray()
+    p2 <- p2 + theme_gray() + theme(axis.text = element_text(size = 12))
   } else if (theme_select == "classic") {
-    p2 <- p2 + theme_classic()
+    p2 <- p2 + theme_classic() + theme(axis.text = element_text(size = 12))
   } else if (theme_select == "light") {
-    p2 <- p2 + theme_light()
+    p2 <- p2 + theme_light() + theme(axis.text = element_text(size = 12))
   } else if (theme_select == "dark") {
-    p2 <- p2 + theme_dark()
+    p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12))
   } else if (theme_select == "bw") {
-    p2 <- p2 + theme_bw()
+    p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12))
   }
   
   ggplotly(p2)
 }
 
-make_stacked_bar <- function(breakdown = "sex", scheme = "viridis", theme_select = "minimal") {
+make_stacked_bar <- function(breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
+  title <- vars$label[vars$value==breakdown]
   p3 <- data %>%
     group_by(!!sym(breakdown), region) %>%
     summarize(count = n()) %>%
     ggplot(aes(fill = !!sym(breakdown), x = region, y=count)) +
-    geom_bar(position="stack", stat="identity")
+    geom_bar(position="stack", stat="identity") +
+    ggtitle(glue("Distribution of {title} Across the Four Regions"))
   
-  if (scheme == "viridis") {
+  if (viridis == TRUE) {
     p3 <- p3 + scale_fill_viridis(discrete = TRUE)
   }
   
   if(theme_select == "minimal") {
-    p3 <- p3 + theme_minimal() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3 + theme_minimal() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else if (theme_select == "gray") {
-    p3 <- p3 + theme_gray() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3 + theme_gray() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else if (theme_select == "classic") {
-    p3 <- p3 + theme_classic() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3 + theme_classic() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else if (theme_select == "light") {
-    p3 <- p3 + theme_light() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3 + theme_light() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else if (theme_select == "dark") {
-    p3 <- p3 + theme_dark() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3 + theme_dark() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else if (theme_select == "bw") {
-    p3 <- p3 + theme_bw() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3 + theme_bw() +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size =12))
   } else {
-    p3 <- p3  +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    p3 <- p3  +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),axis.text = element_text(size =12))
   }
   
   ggplotly(p3)
 }
 
-make_cor_plot <- function(layout = "lower", diag = "TRUE", scheme = "default", labels = "FALSE", theme_select = "minimal"){
+make_cor_plot <- function(layout = "lower", diag = TRUE, viridis = FALSE, labels = TRUE, theme_select = "minimal"){
   costs <- readRDS(here("data","explore","correlation.rds"))
   
   # Get lower
@@ -144,7 +161,7 @@ make_cor_plot <- function(layout = "lower", diag = "TRUE", scheme = "default", l
   #     layout == "full" ~ melt(costs)
   #   )
   
-  if (diag == "FALSE") {
+  if (diag == FALSE) {
     melted_costs <- rm_diag(melted_costs)
   }
   
@@ -160,9 +177,10 @@ make_cor_plot <- function(layout = "lower", diag = "TRUE", scheme = "default", l
     ),
     axis.text.y = element_text(size =12)) +
     xlab("") +
-    ylab("")
+    ylab("") +
+    ggtitle("Correlation Between All Variables")
   
-  if (scheme == "viridis") {
+  if (viridis == TRUE) {
     p4 <- p4 + scale_fill_viridis(
       limit = c(-1, 1),
       direction = 1
@@ -179,7 +197,7 @@ make_cor_plot <- function(layout = "lower", diag = "TRUE", scheme = "default", l
     ) 
   }
   
-  if (labels == "TRUE") {
+  if (labels == TRUE) {
     p4 <- p4 + geom_text(aes(Var2, Var1, label = value), color = "black", size = 4)
   }
   
@@ -244,26 +262,34 @@ make_cor_plot <- function(layout = "lower", diag = "TRUE", scheme = "default", l
   ggplotly(p4)
 }
 
-## Assign components to variables
+## Assign components to variables ----
 title <- htmlH1("Factors Affecting Medical Expenses")
 authors <- htmlH4("By Diana Lin & Nima Jamshidi")
-age_plot <- dccGraph(id = 'age', figure = make_age_plot())
-vars <- tibble(label = c("Age Range", "Sex", "Smoking status", "USA Region"),
-               value = colnames(data)[c(14,2,5,6)]
+
+header <- htmlDiv(
+  list(
+    title,
+    authors
+  ),
+  style = list(
+    backgroundColor = '#AF33FF', ## COLOUR OF YOUR CHOICE
+    textAlign = 'center',
+    color = 'white',
+    margin = 5,
+    marginTop = 0
+  )
 )
-feat_dd <- dccDropdown(id = 'feat_dd', options = map(1:nrow(vars), function (i) list(label=vars$label[i], value=vars$value[i])), value = "sex")
+
+age_plot <- dccGraph(id = 'age', figure = make_age_plot())
+
+feat_dd <- dccDropdown(id = 'feat_dd', options = map(1:nrow(vars), function (i) list(label=vars$label[i], value=vars$value[i])), value = "smoker")
 
 facet_plot <- dccGraph(id = 'facet', figure = make_facet_plot())
 
-viridis_button <- dccRadioItems(id = 'viridis_button',
-                                options = list(
-                                  list(label = 'Default', value = 'default'),
-                                  list(label = 'Colour Blind', value = 'viridis')
-                                ),
-                                value = 'default')
-
-# viridis_button <- daqToggleSwitch(id = 'my-toggle-switch',
-#                                   value = FALSE)
+viridis_button <- daqBooleanSwitch(id = 'viridis_button',
+                                  on = FALSE,
+                                  label = "Viridis Toggle:",
+                                  labelPosition = "top")
 
 stacked_plot <- dccGraph(id = 'stacked', figure = make_stacked_bar())
 corr_plot <- dccGraph(id = 'corr', figure = make_cor_plot())
@@ -275,19 +301,26 @@ corr_layout <- dccRadioItems(id = 'layout_button',
                                list(label = "Full", value = "full")
                              ),
                              value = "lower")
-corr_diag <- dccRadioItems(id = 'diag_button',
-                           options = list(
-                             list(label = "Diagonal ON", value = "TRUE"),
-                             list(label = "Diagonal OFF", value = "FALSE")
-                           ), value = "TRUE")
-corr_label <- dccRadioItems(id = 'lab_button',
-                            options = list(
-                              list(label = "Labels ON", value = "TRUE"),
-                              list(label = "Labels OFF", value = "FALSE")
-                            ), value = "FALSE")
 
-themes <- tibble(label = c("Gray", "Black and white", "Light", "Dark", "Minimal", "Classic", "Default"),
-                 value = c("gray", "bw", "light", "dark", "minimal", "classic", "default"))
+corr_diag <- daqBooleanSwitch(id = 'diagonal_toggle',
+                              on = TRUE,
+                              label = "Diagonal Toggle:",
+                              labelPosition = "top")
+
+corr_label <- daqBooleanSwitch(id = 'label_toggle',
+                               on = FALSE,
+                               label = 'Label Toggle:',
+                               labelPosition = "top")
+
+corr_options <- htmlDiv(
+  list(
+    corr_layout,
+    corr_diag,
+    corr_label
+  ), style = list('display' = 'flex', 'justify-content' = 'space-between')
+)
+
+
 theme_dd <-
   dccDropdown(
     id = 'themes',
@@ -295,80 +328,111 @@ theme_dd <-
       list(label = themes$label[i], value = themes$value[i])),
     value = "minimal"
   )
-## Create Dash instance
+
+viridis_toggle <- htmlDiv(list( htmlDiv(
+  list(viridis_button),
+  style = list('display' = 'flex', 'justify-content' = 'flex-end')
+),htmlBr()))
+
+theme_dropdown <- htmlDiv(
+  list(
+    htmlLabel("Select a theme for all the plots:"),
+    theme_dd,
+    htmlBr()
+  )
+)
+
+colour_dropdown <- htmlDiv(
+  list(
+    htmlLabel("Select the variable for colour breakdown of all the plots:"),
+    feat_dd,
+    htmlBr()
+  )
+)
+
+master_options <- htmlDiv(
+  list(
+    viridis_toggle,
+    theme_dropdown,
+    colour_dropdown
+  )
+)
+
+
+## Create Dash instance ----
 
 app <- Dash$new()
 
-## Specify App layout
+## Specify App layout -----
 app$layout(
   htmlDiv(
     list(
       ### Add components here
-      title,
-      authors,
-      viridis_button,
-      theme_dd,
-      htmlLabel("Select colour breakdown:"),
-      feat_dd,
+      header,
+      master_options,
       age_plot,
+      htmlBr(),
       facet_plot,
+      htmlBr(),
       stacked_plot,
-      corr_layout,
-      corr_plot,
-      corr_diag,
-      corr_label
+      htmlBr(),
+      corr_options,
+      corr_plot
     )
   )
 )
 
+## App Callbacks ----
 app$callback(
   output = list(id = 'age', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
-                input(id = 'viridis_button', property='value'),
+                input(id = 'viridis_button', property='on'),
                 input(id = 'themes', property='value')),
-  function(breakdown, scheme, theme) {
-    make_age_plot(breakdown, scheme, theme)
+  function(breakdown, viridis, theme) {
+    make_age_plot(breakdown, viridis, theme)
   }
 )
 
 app$callback(
   output = list(id = 'facet', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
-                input(id = 'viridis_button', property='value'),
+                input(id = 'viridis_button', property='on'),
                 input(id = 'themes', property='value')),
-  function(breakdown, scheme, theme) {
-    make_facet_plot(breakdown, scheme, theme)
+  function(breakdown, viridis, theme) {
+    make_facet_plot(breakdown, viridis, theme)
   }
 )
 
 app$callback(
   output = list(id = 'stacked', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
-                input(id = 'viridis_button', property='value'),
+                input(id = 'viridis_button', property='on'),
                 input(id = 'themes', property='value')),
-  function(breakdown, scheme, theme) {
-    make_stacked_bar(breakdown, scheme,theme)
+  function(breakdown, viridis, theme) {
+    make_stacked_bar(breakdown, viridis,theme)
   }
 )
 
 app$callback(
   output = list(id = 'corr', property = 'figure'),
   params = list(input(id = 'layout_button', property='value'),
-                input(id = 'diag_button', property = 'value'),
-                input(id = 'viridis_button', property='value'),
-                input(id = 'lab_button', property='value'),
+                input(id = 'diagonal_toggle', property = 'on'),
+                input(id = 'viridis_button', property='on'),
+                input(id = 'label_toggle', property='on'),
                 input(id = 'themes', property='value')),
-  function(layout, diag, scheme,label,theme) {
-    make_cor_plot(layout,diag,scheme,label, theme)
+  function(layout, diag, viridis,label,theme) {
+    make_cor_plot(layout,diag,viridis,label, theme)
   }
 )
 
-## Update Plot
 
-## Run app
-
-
+## Run app ----
 app$run_server(debug=TRUE)
 
 # command to add dash app in Rstudio viewer:
 # rstudioapi::viewer("http://127.0.0.1:8050")
+
+## TO DO -----
+# organize into tabs
+# organize plots into a layout
+# add sidebars for selections, etc
