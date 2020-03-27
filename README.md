@@ -61,6 +61,7 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `dashR`
     - `testthat`
     - `viridis`
+    - `reshape2`
     
     To install all these packages:
     ```
