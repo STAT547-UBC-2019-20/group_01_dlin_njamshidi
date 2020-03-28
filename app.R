@@ -5,11 +5,11 @@
 Usage: app.R"
 
 # load libraries ----
-library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
-library(dashTable)
-library(dashDaq)
+suppressPackageStartupMessages(library(dash))
+suppressPackageStartupMessages(library(dashCoreComponents))
+suppressPackageStartupMessages(library(dashHtmlComponents))
+suppressPackageStartupMessages(library(dashTable))
+suppressPackageStartupMessages(library(dashDaq))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(plotly))
 suppressPackageStartupMessages(library(here))
@@ -132,7 +132,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
   }
   
   p4 <- melted_costs %>%
-    ggplot(aes(Var2, Var1, fill = value)) +
+    ggplot(aes(Var2, Var1, fill = value, text = glue("Var1: {Var2}</br></br>Var2: {Var1}</br>Correlation: {value}"))) +
     geom_tile(color = "white") +
    # theme_minimal() +
     theme(axis.text.x = element_text(
@@ -225,26 +225,36 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
     axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
   }
     
-  ggplotly(p4)
+  ggplotly(p4, tooltip = c("text"))
 }
 
 ## Assign components to variables ----
+
+### title of the page
 title <- htmlH1("Factors Affecting Medical Expenses")
+
+### subtitle of the page
 authors <- htmlH4("By Diana Lin & Nima Jamshidi")
+
+### bar plot component
 age_plot <- dccGraph(id = 'age', figure = make_age_plot())
 
+### colour dropdown menu component
 feat_dd <- dccDropdown(id = 'feat_dd', options = map(1:nrow(vars), function (i) list(label=vars$label[i], value=vars$value[i])), value = "smoker")
 
+### faceted plot component
 facet_plot <- dccGraph(id = 'facet', figure = make_facet_plot())
 
+### viridis toggle component
 viridis_button <- daqBooleanSwitch(id = 'viridis_button',
                                    on = FALSE,
-                                   label = "Viridis Toggle:",
+                                   label = "Viridis Toggle",
                                    labelPosition = "top")
 
-# stacked_plot <- dccGraph(id = 'stacked', figure = make_stacked_bar())
+### correlation plot component
 corr_plot <- dccGraph(id = 'corr', figure = make_cor_plot())
 
+### correlation plot layout radio menu
 corr_layout <- dccRadioItems(id = 'layout_button',
                              options = list(
                                list(label = "Lower", value = "lower"),
@@ -253,16 +263,15 @@ corr_layout <- dccRadioItems(id = 'layout_button',
                              ),
                              value = "lower")
 
+### correlation plot show diagonal toggle
 corr_diag <- daqBooleanSwitch(id = 'diagonal_toggle',
-                              on = FALSE,
-                              label = "Diagonal Toggle:",
-                              labelPosition = "top")
+                              on = FALSE)
 
+### correlation plot show labels toggle
 corr_label <- daqBooleanSwitch(id = 'label_toggle',
-                               on = FALSE,
-                               label = 'Label Toggle:',
-                               labelPosition = "top")
+                               on = TRUE)
 
+### dropdown menu for theme component
 theme_dd <-
   dccDropdown(
     id = 'themes',
@@ -271,11 +280,27 @@ theme_dd <-
     value = "minimal"
   )
 
-reset <- htmlButton("Reset", id = 'reset_button', n_clicks = 0)
+### reset button component
+reset_button <- htmlButton("Reset", id = 'reset_button', n_clicks = 0)
 
+### x-axis dropdown menu component
 x_dd <- dccDropdown(id = 'x_dd', options = map(1:nrow(vars), function (i) list(label=vars$label[i], value=vars$value[i])), value = "age_range")
 
+### Markdown table component
+data_table <- dccMarkdown("
+Variable | Type | Description
+---------|------|---------------
+Age | integer | the primary beneficiary's age in years
+Sex | factor | the beneficiary's sex: `female` or `male`
+BMI | double | the beneficiary's Body Mass Index, a measure of their body fat based on height and weight (measured in kg/m<sup>2</sup>), an ideal range of 18.5 to 24.9
+Children | integer | the number of dependents on the primary beneficiary's insurance policy
+Smoker | factor | whether or not the beneficiary is a smoker: `yes` or `no`
+Region | factor | the beneficiary's residential area in the USA: `southwest`, `southeast`, `northwest`, or `northeast`
+Charges | double | the monetary charges the beneficiary was billed by health insurance", dangerously_allow_html = TRUE)
+
 ## HTML divisions ----
+
+### Header of the dashboard, consistent on every page
 header <- htmlDiv(
   list(
     title,
@@ -290,86 +315,232 @@ header <- htmlDiv(
   )
 )
 
-corr_options <- htmlDiv(
+### Research question div
+research_question <-
+  htmlDiv(list(
+    htmlH3("Research Question"),
+    dccMarkdown(
+      "In this study, we are analyzing the data to find a relationship between the features and the amount of insurance cost. Does having an increased BMI increase your insurance costs? What about age? Number of dependents? Smoking status? Are certain areas of the USA associated with higher insurance costs? In order to answer the questions above we're planning to perform a linear regression analysis and plot the regression line and relevant variables. The variables need to be normalized before performing the regression analysis. A detailed final report can be found [here](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html)."
+    )
+  ), style = list('margin-right' = 10, 'margin-left' = 10))
+
+### Data description div
+data_desc <- htmlDiv(
   list(
-    corr_layout,
-    corr_diag,
-    corr_label
-  ), style = list('display' = 'flex', 'justify-content' = 'space-between')
+    htmlH3("Data Description"),
+    htmlP("This dataset explains the medical insurance costs of a small sample of the USA population. Each row corresponds to a beneficiary. Various metadata was recorded as well. The columns (except the last one) in this dataset correspond to metadata, where the last column is the monetary charges of medical insurance. Here are the possible values for each of the columns:")
+  ), style = list('margin-left' = 10, 'margin-right' = 10)
 )
 
-viridis_toggle <- htmlDiv(list( htmlDiv(
-  list(viridis_button),
-  style = list('display' = 'flex', 'justify-content' = 'flex-end')
-),htmlBr()))
-
-theme_dropdown <- htmlDiv(
+### Table Div
+final_table <- htmlDiv(
   list(
-    htmlLabel("Select a theme for all the plots:"),
-    theme_dd,
-    htmlBr()
+    data_table
+  ), style = list('margin-bottom' = 20)
+)
+
+### Combined Div of Research Question and Data Description
+information <- htmlDiv(
+  list(
+    htmlDiv(
+      list(
+        research_question,
+        data_desc
+      ),
+      style = list('display' = 'flex', 'justify-content' = 'center')
+  ), htmlDiv(
+    list(
+      final_table
+    ),style = list('display' = 'flex', 'justify-content' = 'center')
   )
 )
-
-colour_dropdown <- htmlDiv(
-  list(
-    htmlLabel("Select the variable for colour breakdown of all the plots:"),
-    feat_dd,
-    htmlBr()
-  )
 )
 
-xaxis_dropdown <- htmlDiv(
-  list(
-    htmlLabel("Select the x-axis for the distribution plot:"),
-    x_dd,
-    htmlBr()
-  )
-)
-
-reset_button <- htmlDiv(
-  list(
-    reset
-  ),
-  style = list('display' = 'flex', 'justify-content' = 'flex-end')
-)
-
-master_options <- htmlDiv(
+### Toggles on both tags div 
+master_toggles <- htmlDiv(
   list(
     reset_button,
     htmlBr(),
-    viridis_toggle,
-    theme_dropdown,
-    colour_dropdown,
-    xaxis_dropdown
+    viridis_button
+  ), style = list('margin' = 10, 'display' = 'flex', 'align-items' = 'flex-end', 'flex-direction' = 'column')
+)
+
+# tab1 sidebar div
+tab1_sidebar_top <- htmlDiv(
+  list(
+    htmlH5("Sidebar"),
+    htmlP("Select the breakdown for both plots:"),
+    feat_dd,
+    htmlBr(),
+    htmlP("Select the x-axis for the bar plot: "),
+    x_dd
+  ),
+  style = list('margin-bottom' = 5, 'width' = '60%', 'height' = '50%' , 'display' = 'flex', 'flex-direction' = 'column', 'justify-content' = 'center')
+)
+
+### tab1 bar plot div
+plot1 <- htmlDiv(
+  list(
+    age_plot
+  ), style = list('width' = '100%', 'height' = '100%')
+)
+
+### tab 1 bar plot caption div
+plot1_cap <- htmlDiv(
+  list(
+    htmlH6("Caption:"),
+    htmlP("How is the distribution of sex among different age groups? Tthere appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket. What about the distribution of other variables across different age groups? Across smoking status? Use the dropdown menus in the sidebar to investigate!")
+  ), style = list('width' = '20%', 'height' = '100%')
+)
+
+### tab1 combined barplot + caption div
+plot1_full <- htmlDiv(
+  list(
+    plot1,
+    plot1_cap
+  ), style = list('margin' = 5, 'display' = 'flex')
+)
+
+### tab1 facteted plot div
+plot2 <- htmlDiv(
+  list(
+    facet_plot
+  ), style = list('width' = '100%', 'height' = '100%')
+)
+
+### tab1 faceted plot caption div
+plot2_cap <- htmlDiv(
+  list(
+    htmlH6("Caption:"),
+    htmlP("In order to to check if there is any cluster of data points, we use faceted plot. While the data between regions and sex does not appear to vary much, the smokers vs non-smokers of each facet appear to cluster together, with the non-smokers having an overall lower medical cost.")
+  ), style = list('width' = '20%', 'height' = '100%')
+)
+
+### tab1 faceted plot + caption combined div
+plot2_full <- htmlDiv(
+  list(
+    plot2,
+    plot2_cap
+  ), style = list('margin' = 5, 'display' = 'flex')
+)
+
+### tab1 combined bar+facet div
+two_plots <- htmlDiv(
+  list(
+    plot1_full,
+    htmlBr(),
+    plot2_full
+  ), style = list('display' = 'flex', 'flex-direction' = 'column')
+)
+
+### tab1 top half div (sidebar + 2 plots)
+tab1_top_half <- htmlDiv(
+  list(
+    tab1_sidebar_top,
+    two_plots
+  ), style = list('display' = 'flex')
+)
+
+#33 tab1 bottom sidebar div
+tab1_sidebar_bottom <- htmlDiv(
+  list(
+    htmlP("Select the layout for the correlation plot:"),
+    corr_layout,
+    htmlBr(),
+    htmlP("To show/hide the diagonal of the correlation plot:"),
+    corr_diag,
+    htmlBr(),
+    htmlP("To show/hide the correlation values on the correplation plot:"),
+    corr_label
+  ),
+  style = list('margin-bottom' = 5, 'width' = '60%', 'height' = '50%' , 'display' = 'flex', 'flex-direction' = 'column', 'align-items' = 'flex-start')
+)
+
+### tab1 correlation plot div
+plot3 <- htmlDiv(
+  list(
+    corr_plot
+  ), style = list('width' = '100%', 'height' = '100%')
+  
+)
+
+### tab1 correlation plot caption div
+plot3_cap <- htmlDiv(
+  list(
+    htmlH6("Caption:"),
+    htmlP("To inspect the data set to see if there is any correlation between the variables, we use a correlation plot. We want to consider charges as our dependent variable, and see how the other factors relate to charges. According to the correlation plot, smoking status and charges has the strongest correlation of 0.79. No high collinearity between independent variables is observed.")
+  ), style = list('width' = '20%', 'height' = '100%')
+)
+
+### tab1 correlation plot caption div
+plot3_full <- htmlDiv(
+  list(
+    plot3,
+    plot3_cap
+  ), style = list('margin' = 5, 'display' = 'flex')
+)
+
+### tab1 correplation plot combined div
+one_plot <- htmlDiv(
+  list(
+    plot3_full
+  ), style = list('display' = 'flex')
+)
+
+### tab1 bottom half div: bottom sidebar + corrplot
+tab1_bottom_half <- htmlDiv(
+  list(
+    tab1_sidebar_bottom,
+    one_plot
+  ), style = list('display' = 'flex')
+)
+
+# tab 1 elements
+tab1_page <- htmlDiv(
+  list(
+    master_toggles,
+    htmlP("Select a theme for all plots:"),
+    theme_dd,
+    htmlBr(),
+    tab1_top_half,
+    tab1_bottom_half
+  ), style = list('margin' = 5)
+)
+  
+# tab 2 elements
+tab2_page <- htmlDiv(
+  list(
+    master_toggles,
+    htmlP("Select a theme for all plots:"),
+    theme_dd,
+    htmlBr()
+    #### NIMA'S PART ####
   )
 )
 
 
 ## Create Dash instance ----
-
 app <- Dash$new(external_stylesheets = "https://codepen.io/chriddyp/pen/bWLwgP.css")
 
 ## Specify App layout -----
 app$layout(
+  header,
+  information,
   htmlDiv(
     list(
-      ### Add components here
-      header,
-      master_options,
-      age_plot,
-      htmlBr(),
-      facet_plot,
-      htmlBr(),
-#      stacked_plot,
- #     htmlBr(),
-      corr_options,
-      corr_plot
+      # TABS
+      dccTabs(id="tabs", value='tab-1', children=list(
+        dccTab(label='Exploration', value='tab-1'),
+        dccTab(label='Linear Regression', value='tab-2')
+      )),
+      htmlDiv(id='tabs-content')
     )
   )
 )
 
 ## App Callbacks ----
+
+### Callback to update the bar plot
 app$callback(
   output = list(id = 'age', property='figure'),
   params = list(input(id = 'x_dd', property = 'value'),
@@ -386,6 +557,7 @@ app$callback(
   }
 )
 
+### Callback to update the faceted plot
 app$callback(
   output = list(id = 'facet', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
@@ -401,6 +573,7 @@ app$callback(
   }
 )
 
+### Callback to update the correlation plot
 app$callback(
   output = list(id = 'corr', property = 'figure'),
   params = list(input(id = 'layout_button', property='value'),
@@ -418,8 +591,21 @@ app$callback(
   }
 )
 
+# Callback to update the tabs as they are clicked
+app$callback(
+  output = list(id = 'tabs-content', property = 'children'),
+  params = list(input(id='tabs', 'value')),
+  function(tab) {
+    if (tab == 'tab-1') {
+      tab1_page
+    }
+    else if (tab == 'tab-2') {
+      tab2_page
+    }
+  }
+)
 
-
+# How to get the reset the reset button n_clicks to 0?
 # app$callback(
 #   output = list(id = 'label_toggle', property = 'on'),
 #   params = list(input(id = 'reset_button', property='n_clicks')),
@@ -435,9 +621,3 @@ app$run_server(debug=TRUE)
 
 # command to add dash app in Rstudio viewer:
 # rstudioapi::viewer("http://127.0.0.1:8050")
-
-## TO DO -----
-# add reset button
-# organize into tabs
-# organize plots into a layout
-# add sidebars for selections, etc
