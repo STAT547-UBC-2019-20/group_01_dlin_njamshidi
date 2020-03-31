@@ -51,22 +51,6 @@ make_age_plot <- function(xaxis = "age_range", breakdown = "smoker", viridis = F
   
   p1 <- p1 + do.call(paste0("theme",theme_select),list()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
   
-  # if(theme_select == "minimal") {
-  #   p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "gray") {
-  #   p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "classic") {
-  #   p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "light") {
-  #   p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "dark") {
-  #   p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "bw") {
-  #   p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else {
-  #   p1 <- p1 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # }
-  
   ggplotly(p1)
 }
 
@@ -87,22 +71,7 @@ make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select 
   }
   
   p2 <- p2 + do.call(paste0("theme",theme_select),list()) + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  
-  # if(theme_select == "minimal") {
-  #   p2 <- p2 + theme_minimal() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "gray") {
-  #   p2 <- p2 + theme_gray() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "classic") {
-  #   p2 <- p2 + theme_classic() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "light") {
-  #   p2 <- p2 + theme_light() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "dark") {
-  #   p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else if (theme_select == "bw") {
-  #   p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # } else {
-  #   p2 <- p2 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  # }
+
   
   ggplotly(p2)
 }
@@ -179,65 +148,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
     hjust = 1
   ),
   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue"))
-  
-  # if(theme_select == "minimal") {
-  #   p4 <- p4 + theme_minimal() + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # } else if (theme_select == "gray") {
-  #   p4 <- p4 + theme_gray() + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # } else if (theme_select == "classic") {
-  #   p4 <- p4 + theme_classic() + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # } else if (theme_select == "light") {
-  #   p4 <- p4 + theme_light() + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # } else if (theme_select == "dark") {
-  #   p4 <- p4 + theme_dark() + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # } else if (theme_select == "bw") {
-  #   p4 <- p4 + theme_bw() + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # } else {
-  #   p4 <- p4 + theme(axis.text.x = element_text(
-  #     angle = 45,
-  #     vjust = 1,
-  #     size = 12,
-  #     hjust = 1
-  #   ),
-  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  # }
-  
+
   ggplotly(p4, tooltip = c("text"))
 }
 
@@ -923,14 +834,6 @@ app$callback(
   }
 )
 
-# app$callback(
-#   output = list(id = 'viridis_button', property='on'),
-#   params = list(input(id = 'reset_button', property = 'n_clicks')),
-#   function(clicks) {
-#     return(FALSE)
-#   }
-# )
-
 
 ### Callback to update the bar plot
 app$callback(
@@ -985,18 +888,62 @@ app$callback(
   }
 )
 
-# How to get the reset the reset button n_clicks to 0?
-# app$callback(
-#   output = list(id = 'label_toggle', property = 'on'),
-#   params = list(input(id = 'reset_button', property='n_clicks')),
-#   function(clicks) {
-#     if (clicks > 0 ) {
-#       # reset the label_toggle property 'on' = FALSE
-#     }
-#   }
-# )
 
+app$callback(
+  output(id = "viridis_button", property = "on"),
+  params = list(input(id = "reset_button", property = 'n_clicks')),
+  reset_btn <- function(val){
+    val = FALSE
+  }
+)
 
+app$callback(
+  output(id = 'x_dd', property = 'value'),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(val) {
+    val = "age_range"
+  }
+)
+
+app$callback(
+  output(id = 'feat_dd', property = "value"),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(val) {
+    val = "smoker"
+  }
+)
+
+app$callback(
+  output(id = 'themes', property = 'value'),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(val) {
+    val = "_minimal"
+  }
+)
+
+app$callback(
+  output(id = 'layout_button', property = 'value'),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(val) {
+    val = "lower"
+  }
+)
+
+app$callback(
+  output(id = 'diagonal_toggle', property = 'on'),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(val) {
+    val = FALSE
+  }
+)
+
+app$callback(
+  output(id = 'label_toggle', property='on'),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(val) {
+    val = TRUE
+  }
+)
 
 ### callback for checklist limit
 app$callback(output = list(id = 'lm-checklist', property = 'options'),
