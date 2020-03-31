@@ -977,6 +977,102 @@ app$callback(
 #   }
 # )
 
+
+
+### callback for checklist limit
+app$callback(output = list(id = 'lm-checklist', property = 'options'),
+             params = list(input(id = 'lm-checklist', property = 'value')),
+             
+             function(variables) {
+               # clickData contains $x, $y and $customdata
+               # you can't access these by gapminder column name!
+               if (length(variables) == 3) {
+                 map(1:nrow(lmvarKey), function(i) {
+                   list(
+                     label = lmvarKey$label[i],
+                     value = lmvarKey$value[i],
+                     disabled = ifelse(lmvarKey$value[i] %in% variables, TRUE , FALSE)
+                   )
+                 })
+               }
+               else{
+                 map(1:nrow(lmvarKey), function(i) {
+                   list(
+                     label = lmvarKey$label[i],
+                     value = lmvarKey$value[i],
+                     disabled = FALSE
+                   )
+                 })
+               }
+             })
+
+### callback for updating model and its results
+app$callback(output = list(
+  output(id = 'lm-markdown', property = 'children'),
+  output(id = 'lm-plot', property = 'figure'),
+  output(id = 'lm-table', property = 'figure')
+), params = list(input(id = 'lm-checklist', property = 'value')),
+function(variables) {
+  model <- linear_model(variables)
+  return(list(rsquared(model), lm_plot(model), lm_table(model)))
+})
+
+app$callback(output = list(id = 'predict_result', property = 'children'),
+             params = list(
+               input(id = 'predict_button', property = 'n_clicks'),
+               state(id='lm-checklist', property = 'value'),
+               state(id = 'predict_age', property = 'value'),
+               state(id = 'predict_sex', property = 'value'),
+               state(id = 'predict_bmi', property = 'value'),
+               state(id = 'predict_children', property = 'value'),
+               state(id = 'predict_smoker', property = 'value'),
+               state(id = 'predict_region', property = 'value')
+             ),
+             function(nclick,variables,age1, sex1, bmi1, children1, smoker1,region1) {
+               if (nclick > 0) {
+                 sample <- data.frame(age=age1,sex=sex1,bmi=bmi1,children=children1,smoker=smoker1,region=region1)
+                 clause <- lmvarKey$value %in% variables
+                 lm_predict(linear_model(variables),sample[clause])
+               }else{
+                 lm_predict()
+               }
+               # is.na(sample)
+               
+               
+             })
+
+app$callback(output = list(
+  output(id = 'predict_age', property = 'value'),
+  output(id = 'predict_sex', property = 'value'),
+  output(id = 'predict_bmi', property = 'value'),
+  output(id = 'predict_children', property = 'value'),
+  output(id = 'predict_smoker', property = 'value'),
+  output(id = 'predict_region', property = 'value'),
+  output(id = 'predict_age', property = 'disabled'),
+  output(id = 'predict_sex', property = 'disabled'),
+  output(id = 'predict_bmi', property = 'disabled'),
+  output(id = 'predict_children', property = 'disabled'),
+  output(id = 'predict_smoker', property = 'disabled'),
+  output(id = 'predict_region', property = 'disabled')
+),
+params = list(input(id='lm-checklist', property = 'value')),
+
+function(variables) {
+  clause <- lmvarKey$value %in% variables
+  return(combine(map(1:nrow(lmvarKey), function(i) {
+    ifelse(
+      clause[i] == TRUE,
+      ifelse(
+        lmvarKey$default_type[i] == TRUE,
+        as.numeric(lmvarKey$default[i]),
+        lmvarKey$default[i]
+      ),
+      ''
+    )
+  }),
+  as.list(!clause)))
+}
+)
 ## Run app ----
 app$run_server(debug=TRUE)
 
