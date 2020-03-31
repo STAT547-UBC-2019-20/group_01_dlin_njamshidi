@@ -17,6 +17,7 @@ suppressPackageStartupMessages(library(scales))
 suppressPackageStartupMessages(library(viridis))
 suppressPackageStartupMessages(library(reshape2))
 suppressPackageStartupMessages(library(glue))
+suppressPackageStartupMessages(library(broom))
 
 ## Read in data
 data <- readRDS(here("data","processed","processed_data.rds"))
