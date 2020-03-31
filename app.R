@@ -108,7 +108,7 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
   p4 <- melted_costs %>%
     ggplot(aes(Var2, Var1, fill = value, text = glue("Var1: {Var2}</br></br>Var2: {Var1}</br>Correlation: {value}"))) +
     geom_tile(color = "white") +
-   # theme_minimal() +
+    # theme_minimal() +
     theme(axis.text.x = element_text(
       angle = 45,
       vjust = 1,
@@ -149,7 +149,6 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
   ),
   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue"))
 
-    
   ggplotly(p4, tooltip = c("text"))
 }
 
@@ -308,7 +307,7 @@ Charges | double | the monetary charges the beneficiary was billed by health ins
 ## Nima defining components ----
 
 ### markdown for variable selection
-lm_variables_markdown <- dccMarkdown('**Variables to be used in the linear model**')
+lm_variables_markdown <- dccMarkdown('**Variables to be used in the linear model (you cannot choose less than three variables)**')
 
 ### variable checklist
 lm_variables <- dccChecklist(
@@ -491,7 +490,8 @@ Div_lm_result <- htmlDiv(
 
 Div_p_Age <- htmlDiv(
   list(
-    dccMarkdown(id='p-m-1',children = 'Date of Birth:',style = list('display' = 'flex', 'justify-content'='left')),
+    htmlP('Date of Birth:'),
+    # dccMarkdown(id='p-m-1',children = 'Date of Birth:',style = list('display' = 'flex', 'justify-content'='left')),
     predict_Age
   ),
   style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%','align-items' = 'flex-start')
@@ -501,7 +501,8 @@ Div_p_Age <- htmlDiv(
 
 Div_p_Sex <- htmlDiv(
   list(
-    dccMarkdown(id='p-m-2',children = 'Sex:',style = list('display' = 'flex', 'justify-content'='left')),
+    htmlP('Sex:'),
+    # dccMarkdown(id='p-m-2',children = 'Sex:',style = list('display' = 'flex', 'justify-content'='left')),
     predict_Sex
   ),
   style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%')
@@ -509,7 +510,8 @@ Div_p_Sex <- htmlDiv(
 
 Div_p_BMI <- htmlDiv(
   list(
-    dccMarkdown(id='p-m-3',children = 'BMI:',style = list('display' = 'flex', 'justify-content'='left')),
+    htmlP('BMI:'),
+    #     dccMarkdown(id='p-m-3',children = 'BMI:',style = list('display' = 'flex', 'justify-content'='left')),
     predict_BMI
   ),
   style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%')
@@ -517,7 +519,8 @@ Div_p_BMI <- htmlDiv(
 
 Div_p_Children <- htmlDiv(
   list(
-    dccMarkdown(id='p-m-4',children = 'Number of children:',style = list('display' = 'flex', 'justify-content'='left')),
+    htmlP('Number of children:'),
+    #     dccMarkdown(id='p-m-4',children = 'Number of children:',style = list('display' = 'flex', 'justify-content'='left')),
     predict_Children
   ),
   style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%')
@@ -525,7 +528,8 @@ Div_p_Children <- htmlDiv(
 
 Div_p_Smoker <- htmlDiv(
   list(
-    dccMarkdown(id='p-m-5',children = 'Frequent smoker:',style = list('display' = 'flex', 'justify-content'='left')),
+    htmlP('Frequent smoker:'),
+    #    dccMarkdown(id='p-m-5',children = 'Frequent smoker:',style = list('display' = 'flex', 'justify-content'='left')),
     predict_Smoker
   ),
   style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%')
@@ -533,7 +537,8 @@ Div_p_Smoker <- htmlDiv(
 
 Div_p_Region <- htmlDiv(
   list(
-    dccMarkdown(id='p-m-6',children = 'Region:',style = list('display' = 'flex', 'justify-content'='left')),
+    htmlP('Region:'),
+    #    dccMarkdown(id='p-m-6',children = 'Region:',style = list('display' = 'flex', 'justify-content'='left')),
     predict_Region
   ),
   style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%')
@@ -622,19 +627,19 @@ information <- htmlDiv(
         data_desc
       ),
       style = list('display' = 'flex', 'justify-content' = 'center')
-  ), htmlDiv(
-    list(
-      final_table
-    ),style = list('display' = 'flex', 'justify-content' = 'center')
+    ), htmlDiv(
+      list(
+        final_table
+      ),style = list('display' = 'flex', 'justify-content' = 'center')
+    )
   )
-)
 )
 
 ### Toggles on both tags div 
 master_toggles <- htmlDiv(
   list(
-#   reset_button,
-#   htmlBr(),
+    reset_button,
+    htmlBr(),
     viridis_button
   ), style = list('margin' = 10, 'display' = 'flex', 'align-items' = 'flex-end', 'flex-direction' = 'column')
 )
@@ -780,7 +785,7 @@ tab1_page <- htmlDiv(
     tab1_bottom_half
   ), style = list('margin' = 5)
 )
-  
+
 # tab 2 elements
 tab2_page <- htmlDiv(
   list(
@@ -814,20 +819,33 @@ app$layout(
 
 ## App Callbacks ----
 
+### Callback to reset the related components
+app$callback(
+  output = list(output(id = 'layout_button', property='value'),
+                output(id = 'diagonal_toggle', property = 'on'),
+                output(id = 'viridis_button', property='on'),
+                output(id = 'label_toggle', property='on'),
+                output(id = 'themes', property='value'),
+                input(id = 'x_dd', property = 'value'),
+                input(id = 'feat_dd', property='value')),
+  params = list(input(id = 'reset_button', property = 'n_clicks')),
+  function(clicks) {
+    list("lower",FALSE,FALSE,TRUE,"_minimal","age_range","smoker")
+  }
+)
+
+
 ### Callback to update the bar plot
 app$callback(
   output = list(id = 'age', property='figure'),
   params = list(input(id = 'x_dd', property = 'value'),
                 input(id = 'feat_dd', property='value'),
                 input(id = 'viridis_button', property='on'),
-                input(id = 'themes', property='value'),
-                input(id = 'reset_button', property = 'n_clicks')),
-  function(xaxis,breakdown, viridis, theme, clicks) {
-    if (clicks > 0 ) {
-      make_age_plot()
-    } else {
-      make_age_plot(xaxis, breakdown, viridis, theme)
-    }
+                input(id = 'themes', property='value')),
+  function(xaxis,breakdown, viridis, theme) {
+    
+    make_age_plot(xaxis, breakdown, viridis, theme)
+    
   }
 )
 
@@ -836,14 +854,10 @@ app$callback(
   output = list(id = 'facet', property='figure'),
   params = list(input(id = 'feat_dd', property='value'),
                 input(id = 'viridis_button', property='on'),
-                input(id = 'themes', property='value'),
-                input(id = 'reset_button', property = 'n_clicks')),
-  function(breakdown, viridis, theme, clicks) {
-    if (clicks > 0) {
-      make_facet_plot()
-    } else {
-      make_facet_plot(breakdown, viridis, theme)
-    }
+                input(id = 'themes', property='value')),
+  function(breakdown, viridis, theme) {
+    make_facet_plot(breakdown, viridis, theme)
+    
   }
 )
 
@@ -854,14 +868,9 @@ app$callback(
                 input(id = 'diagonal_toggle', property = 'on'),
                 input(id = 'viridis_button', property='on'),
                 input(id = 'label_toggle', property='on'),
-                input(id = 'themes', property='value'),
-                input(id = 'reset_button', property = 'n_clicks')),
-  function(layout, diag, viridis,label,theme, clicks) {
-    if (clicks > 0 ) {
-      make_cor_plot()
-    } else {
+                input(id = 'themes', property='value')),
+  function(layout, diag, viridis,label,theme) {
     make_cor_plot(layout,diag,viridis,label, theme)
-    }
   }
 )
 
