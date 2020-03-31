@@ -30,9 +30,9 @@ vars <- tibble(label = c("Age Range", "Sex", "Smoking Status", "USA Region"),
 
 # Tibble of themes
 themes <- tibble(label = c("Gray", "Black and white", "Light", "Dark", "Minimal", "Classic", "Default"),
-                 value = c("gray", "bw", "light", "dark", "minimal", "classic", "default"))
+                 value = c("_gray", "_bw", "_light", "_dark", "_minimal", "_classic", ""))
 
-make_age_plot <- function(xaxis = "age_range", breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
+make_age_plot <- function(xaxis = "age_range", breakdown = "smoker", viridis = FALSE, theme_select = "_minimal") {
   
   title <- vars$label[vars$value == breakdown]
   xaxis_val <- vars$label[vars$value == xaxis]
@@ -48,26 +48,28 @@ make_age_plot <- function(xaxis = "age_range", breakdown = "smoker", viridis = F
     p1 <- p1 + scale_fill_viridis(discrete=TRUE)
   }
   
-  if(theme_select == "minimal") {
-    p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "gray") {
-    p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "classic") {
-    p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "light") {
-    p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "dark") {
-    p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "bw") {
-    p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else {
-    p1 <- p1 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  }
+  p1 <- p1 + do.call(paste0("theme",theme_select),list()) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  
+  # if(theme_select == "minimal") {
+  #   p1 <- p1 + theme_minimal() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "gray") {
+  #   p1 <- p1 + theme_gray() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "classic") {
+  #   p1 <- p1 + theme_classic() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "light") {
+  #   p1 <- p1 + theme_light() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "dark") {
+  #   p1 <- p1 + theme_dark() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "bw") {
+  #   p1 <- p1 + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else {
+  #   p1 <- p1 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # }
   
   ggplotly(p1)
 }
 
-make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select = "minimal") {
+make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select = "_minimal") {
   
   p2 <- data %>%
     select(c(age, sex, bmi, children, smoker, region, charges, age_range)) %>%
@@ -83,26 +85,28 @@ make_facet_plot <- function(breakdown = "smoker", viridis = FALSE, theme_select 
     p2 <- p2 + scale_colour_viridis(discrete=TRUE)
   }
   
-  if(theme_select == "minimal") {
-    p2 <- p2 + theme_minimal() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "gray") {
-    p2 <- p2 + theme_gray() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "classic") {
-    p2 <- p2 + theme_classic() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "light") {
-    p2 <- p2 + theme_light() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "dark") {
-    p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else if (theme_select == "bw") {
-    p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  } else {
-    p2 <- p2 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
-  }
+  p2 <- p2 + do.call(paste0("theme",theme_select),list()) + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  
+  # if(theme_select == "minimal") {
+  #   p2 <- p2 + theme_minimal() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "gray") {
+  #   p2 <- p2 + theme_gray() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "classic") {
+  #   p2 <- p2 + theme_classic() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "light") {
+  #   p2 <- p2 + theme_light() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "dark") {
+  #   p2 <- p2 + theme_dark() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else if (theme_select == "bw") {
+  #   p2 <- p2 + theme_bw() + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # } else {
+  #   p2 <- p2 + theme(axis.text = element_text(size = 12), text = element_text(family = "HelveticaNeue"))
+  # }
   
   ggplotly(p2)
 }
 
-make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, labels = TRUE, theme_select = "minimal"){
+make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, labels = TRUE, theme_select = "_minimal"){
   costs <- readRDS(here("data","explore","correlation.rds"))
   
   # Get lower
@@ -167,63 +171,71 @@ make_cor_plot <- function(layout = "lower", diag = FALSE, viridis = FALSE, label
     p4 <- p4 + geom_text(aes(Var2, Var1, label = value), color = "black", size = 4)
   }
   
-  if(theme_select == "minimal") {
-    p4 <- p4 + theme_minimal() + theme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  } else if (theme_select == "gray") {
-    p4 <- p4 + theme_gray() + theme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  } else if (theme_select == "classic") {
-    p4 <- p4 + theme_classic() + ttheme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  } else if (theme_select == "light") {
-    p4 <- p4 + theme_light() + theme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  } else if (theme_select == "dark") {
-    p4 <- p4 + theme_dark() + theme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  } else if (theme_select == "bw") {
-    p4 <- p4 + theme_bw() + theme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  } else {
-    p4 <- p4 + theme(axis.text.x = element_text(
-      angle = 45,
-      vjust = 1,
-      size = 12,
-      hjust = 1
-    ),
-    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
-  }
+  p4 <- p4 + do.call(paste0("theme",theme_select),list()) + theme(axis.text.x = element_text(
+    angle = 45,
+    vjust = 1,
+    size = 12,
+    hjust = 1
+  ),
+  axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue"))
+  
+  # if(theme_select == "minimal") {
+  #   p4 <- p4 + theme_minimal() + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # } else if (theme_select == "gray") {
+  #   p4 <- p4 + theme_gray() + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # } else if (theme_select == "classic") {
+  #   p4 <- p4 + theme_classic() + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # } else if (theme_select == "light") {
+  #   p4 <- p4 + theme_light() + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # } else if (theme_select == "dark") {
+  #   p4 <- p4 + theme_dark() + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # } else if (theme_select == "bw") {
+  #   p4 <- p4 + theme_bw() + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # } else {
+  #   p4 <- p4 + theme(axis.text.x = element_text(
+  #     angle = 45,
+  #     vjust = 1,
+  #     size = 12,
+  #     hjust = 1
+  #   ),
+  #   axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue")) 
+  # }
     
   ggplotly(p4, tooltip = c("text"))
 }
@@ -277,7 +289,7 @@ theme_dd <-
     id = 'themes',
     options = map(1:nrow(themes), function (i)
       list(label = themes$label[i], value = themes$value[i])),
-    value = "minimal"
+    value = "_minimal"
   )
 
 ### reset button component
@@ -389,7 +401,7 @@ plot1 <- htmlDiv(
 plot1_cap <- htmlDiv(
   list(
     htmlH6("Caption:"),
-    htmlP("How is the distribution of sex among different age groups? Tthere appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket. What about the distribution of other variables across different age groups? Across smoking status? Use the dropdown menus in the sidebar to investigate!")
+    htmlP("How is the distribution of sex among different age groups? There appears to be more beneficiaries in the 20-60 age range. The biggest difference in the number of beneficiaries from different sex is seen in the 20-30 bracket. What about the distribution of other variables across different age groups? Across smoking status? Use the dropdown menus in the sidebar to investigate!")
   ), style = list('width' = '20%', 'height' = '100%')
 )
 
