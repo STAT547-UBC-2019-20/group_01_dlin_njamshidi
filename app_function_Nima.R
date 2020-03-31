@@ -25,24 +25,9 @@ lmvarKey <- tibble(label = c("Age", "Sex", "BMI", "Children", "Smoker", "Region"
                    default_type = c(TRUE,FALSE,TRUE,TRUE,FALSE,FALSE)
                    )
 
-### markdown for variable selection
-lm_variables_markdown <- dccMarkdown('**Variables to be used in the linear model**')
 
-### variable checklist
-lm_variables <- dccChecklist(
-  id = 'lm-checklist',
-  options = map(1:nrow(lmvarKey), function(i) {
-    list(
-      label = lmvarKey$label[i],
-      value = lmvarKey$value[i],
-      disabled = ifelse(lmvarKey$value[i] %in% c('age', 'sex', 'bmi'), TRUE , FALSE)
-    )
-  }),
-  value = c('age', 'sex', 'bmi'),
-  labelStyle=list('display'= 'inline-block')
-  # style = list('width'='100%')
-)
 
+## defining functions ----
 
 ### linear model function
 linear_model <- function(lm_variables=c('age', 'sex','bmi')){
@@ -107,6 +92,32 @@ lm_table <- function(model){
   )
   table
 }
+
+### predict function
+lm_predict <- function(p_model=model,newdata=data.frame(age=74,sex="male",bmi=30.4)){
+  paste0(round(predict.lm(p_model,newdata),-1),' $')
+}
+
+## Defining components ----
+
+### markdown for variable selection
+lm_variables_markdown <- dccMarkdown('**Variables to be used in the linear model**')
+
+### variable checklist
+lm_variables <- dccChecklist(
+  id = 'lm-checklist',
+  options = map(1:nrow(lmvarKey), function(i) {
+    list(
+      label = lmvarKey$label[i],
+      value = lmvarKey$value[i],
+      disabled = ifelse(lmvarKey$value[i] %in% c('age', 'sex', 'bmi'), TRUE , FALSE)
+    )
+  }),
+  value = c('age', 'sex', 'bmi'),
+  labelStyle=list('display'= 'inline-block')
+  # style = list('width'='100%')
+)
+
 
 ### rsquarred markdown component
 lm_result <- dccMarkdown(
@@ -203,24 +214,6 @@ predict_Region <-
     disabled = FALSE
   )
 
-### model for prediction
-# p_model <- lm(charges~age+sex+bmi+children+smoker,data=data)
-
-### predict based on p_model function
-# lm_predict <- function(p_model=model,newdata=data.frame(age=74,sex="male",bmi=30.4)){
-#   #data.frame(age=p_age,sex=p_sex,bmi=p_bmi,children=p_children,smoker=p_smoker)
-#   tryCatch({paste0(round(predict.lm(p_model,newdata),-1),' $')},error = function(c) {
-#     paste0("The variables are not specified correctly!")
-#   })
-# }
-lm_predict <- function(p_model=model,newdata=data.frame(age=74,sex="male",bmi=30.4)){
-  #data.frame(age=p_age,sex=p_sex,bmi=p_bmi,children=p_children,smoker=p_smoker)
-  # tryCatch({paste0(round(predict.lm(p_model,newdata),-1),' $')},error = function(c) {
-  #   paste0("The variables are not specified correctly!")
-  # })
-  paste0(round(predict.lm(p_model,newdata),-1),' $')
-}
-
 
 ### predict markdown component
 predict_result <-
@@ -235,7 +228,7 @@ predict_result <-
     )
   )
 
-
+## defining html divs ----
 
 Div_variables <- htmlDiv(
   list(
@@ -347,23 +340,6 @@ Div_p_result <- htmlDiv(
   style = list('display' = 'flex','align-items' = 'center','border-style' = 'ridge','border-color' = 'green')
 )
 
-# Div_p_var_markdown <- htmlDiv(
-#   list(
-#     Div_p_Age_markdown,
-#     Div_p_Sex_markdown,
-#     Div_p_BMI_markdown,
-#     Div_p_Children_markdown,
-#     Div_p_Smoker_markdown,
-#     Div_p_Region_markdown,
-#     htmlDiv(
-#       list(
-#         dccMarkdown('     ')
-#       ),
-#       style = list('display' = 'flex', 'flex-direction' = 'column','margin'=5,'width' = '12.5%','justify-content'='left')
-#     )
-#   ),
-#   style = list('display' = 'flex','align-items' = 'space-between', 'flex-direction' = 'row','margin'=5)
-# )
 
 Div_p_var <- htmlDiv(
   list(
@@ -381,7 +357,6 @@ Div_p_var <- htmlDiv(
 Div_p <- htmlDiv(
   list(
     predict_markdown,
-    #Div_p_var_markdown,
     Div_p_var,
     Div_p_result,
     htmlBr()
@@ -389,6 +364,7 @@ Div_p <- htmlDiv(
   style = list('display' = 'flex','align-items' = 'center', 'flex-direction' = 'column','margin'=5,'border-style'='double')
 )
 
+## Starting new dash app ----
 
 app <- Dash$new()
 
@@ -400,6 +376,8 @@ app$layout(htmlDiv(
     )
   )
 )
+
+## callbacks ----
 
 ### callback for checklist limit
 app$callback(output = list(id = 'lm-checklist', property = 'options'),
