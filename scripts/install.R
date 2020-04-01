@@ -2,7 +2,7 @@
 # date: March 18, 202
 
 # list of required packages from the README
-required_packages <-c("tidyverse","here","hablar","psych","corrplot","scales","glue","RCurl","docopt","broom","grid","gridExtra","png","tinytex","bookdown","fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime", "crayon", "devtools", "testthat","viridis", "reshape2", "dash")
+required_packages <- c("RCurl","base64enc","bookdown","broom","corrplot","crayon","docopt","devtools","fiery","glue","grid","gridExtra","hablar","here","htmltools","knitr","mime","plotly","png","psych","rmarkdown","reqres","reshape2","routr","scales","testthat","tidyverse","tinytex","viridis", "dash")
 
 # Boolean vector of which ones are installed, 
 boolean <- required_packages %in% installed.packages()
