@@ -34,35 +34,56 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     ```
 
 1. Ensure the following packages are installed:
-    - `tidyverse`: `dplyr`, `tidyr`, `ggplot2`, `readr`, `purrr`, `stringr`
-    - `here`
-    - `hablar`
-    - `psych`
-    - `corrplot`
-    - `scales`
-    - `glue`
     - `RCurl`
-    - `docopt`
+    - `base64enc`
+    - `bookdown`
     - `broom`
+    - `corrplot`
+    - `crayon`
+    - `dash`
+    - `dashCoreComponents`
+    - `dashHtmlComponents`
+    - `docopt`
+    - `devtools`
+    - `fiery`
+    - `glue`
     - `grid`
     - `gridExtra`
-    - `png`
-    - `tinytex`
-    - `bookdown`
-    - `fiery`
-    - `routr`
-    - `reqres`
+    - `hablar`
+    - `here`
     - `htmltools`
-    - `base64enc`
-    - `plotly`
     - `mime`
-    - `crayon`
-    - `devtools`
-    - `dashR`
+    - `plotly`
+    - `png`
+    - `psych`
+    - `rmarkdown`
+    - `reqres`
+    - `routr`
+    - `scales`
     - `testthat`
+    - `tidyverse`: `ggplot2`, `dplyr`, `tidyr`, `readr`, `purrr`, `tibble`, `stringr`, `forcats`
+    - `tinytex`
+    - `corrplot`
+    - `glue`
+    - `hablar`
+    - `here`
+    - `knitr`
+    - `psych`
+    - `scales`
+    - `tidyverse`
+    - `broom`
+    - `dash`
+    - `dashCoreComponents`
     - `dashDaq`
-    - `viridis`
+    - `dashHtmlComponents`
+    - `dashTable`
+    - `glue`
+    - `here`
+    - `plotly`
     - `reshape2`
+    - `scales`
+    - `tidyverse`
+    - `viridis`
     
     To install all these packages:
     ```
