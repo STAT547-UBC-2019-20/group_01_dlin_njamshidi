@@ -43,7 +43,9 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `crayon`
     - `dash`
     - `dashCoreComponents`
+    - `dashDaq`
     - `dashHtmlComponents`
+    - `dashTable`
     - `docopt`
     - `devtools`
     - `fiery`
@@ -53,37 +55,19 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     - `hablar`
     - `here`
     - `htmltools`
+    - `knitr`
     - `mime`
     - `plotly`
     - `png`
     - `psych`
     - `rmarkdown`
     - `reqres`
+    - `reshape2`
     - `routr`
     - `scales`
     - `testthat`
     - `tidyverse`: `ggplot2`, `dplyr`, `tidyr`, `readr`, `purrr`, `tibble`, `stringr`, `forcats`
     - `tinytex`
-    - `corrplot`
-    - `glue`
-    - `hablar`
-    - `here`
-    - `knitr`
-    - `psych`
-    - `scales`
-    - `tidyverse`
-    - `broom`
-    - `dash`
-    - `dashCoreComponents`
-    - `dashDaq`
-    - `dashHtmlComponents`
-    - `dashTable`
-    - `glue`
-    - `here`
-    - `plotly`
-    - `reshape2`
-    - `scales`
-    - `tidyverse`
     - `viridis`
     
     To install all these packages:
