@@ -12,6 +12,7 @@
     1. [Milestone 2](#milestone-2)
     1. [Milestone 3](#milestone-3)
     1. [Milestone 4](#milestone-4)
+    1. [Milestone 5](#milestone-5)
 1. Final Report
     1. [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html)
     1. [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf)
@@ -34,35 +35,40 @@ This repository holds the STAT 547 Group Project, for Group 1: Diana Lin and Nim
     ```
 
 1. Ensure the following packages are installed:
-    - `tidyverse`: `dplyr`, `tidyr`, `ggplot2`, `readr`, `purrr`, `stringr`
-    - `here`
-    - `hablar`
-    - `psych`
-    - `corrplot`
-    - `scales`
-    - `glue`
     - `RCurl`
-    - `docopt`
+    - `base64enc`
+    - `bookdown`
     - `broom`
+    - `corrplot`
+    - `crayon`
+    - `dash`
+    - `dashCoreComponents`
+    - `dashDaq`
+    - `dashHtmlComponents`
+    - `dashTable`
+    - `docopt`
+    - `devtools`
+    - `fiery`
+    - `glue`
     - `grid`
     - `gridExtra`
-    - `png`
-    - `tinytex`
-    - `bookdown`
-    - `fiery`
-    - `routr`
-    - `reqres`
+    - `hablar`
+    - `here`
     - `htmltools`
-    - `base64enc`
-    - `plotly`
+    - `knitr`
     - `mime`
-    - `crayon`
-    - `devtools`
-    - `dashR`
-    - `testthat`
-    - `dashDaq`
-    - `viridis`
+    - `plotly`
+    - `png`
+    - `psych`
+    - `rmarkdown`
+    - `reqres`
     - `reshape2`
+    - `routr`
+    - `scales`
+    - `testthat`
+    - `tidyverse`: `ggplot2`, `dplyr`, `tidyr`, `readr`, `purrr`, `tibble`, `stringr`, `forcats`
+    - `tinytex`
+    - `viridis`
     
     To install all these packages:
     ```
@@ -170,7 +176,7 @@ Our progress is outlined in issue [#8](https://github.com/STAT547-UBC-2019-20/gr
 
 ### Milestone 3
 
-For Milestone3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html) and [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf).
+For Milestone 3, the script to knit the final report is [`scripts/knit.R`](scripts/knit.R). The final report can be here in [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html) and [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf).
 
 Our progress is outlined in issue [#24](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/24).
 
@@ -191,9 +197,20 @@ Our progress is outlined in issue [#24](https://github.com/STAT547-UBC-2019-20/g
 
 ### Milestone 4
 
-For Milestone4, we have addressed the feedback from TAs (issues [#9](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/9) and [#25](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/25)), and from our peers (issues [#35](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/35) and [#39](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/39)). Of the feedback in these four issues, all were implemented except for one, which has been filed under future work in issue [#41](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/41).
+For Milestone 4, we have addressed the feedback from TAs (issues [#9](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/9) and [#25](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/25)), and from our peers (issues [#35](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/35) and [#39](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/39)). Of the feedback in these four issues, all were implemented except for one, which has been filed under future work in issue [#41](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/41).
 
 Our progress is outlined in issue [#40](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/40).
+
+### Milestone 5
+For milestone 5, we have finished our dashboard in [`app.R`](app.R), and implemented TA feedback from issue [#46](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/46)
+
+Our progress is outlined in issue [#44](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/44).
+
+To run the dashboard locally:
+
+```
+Rscript app.R
+```
 
 ## Dashboard Proposal
 
