@@ -578,7 +578,7 @@ Div_p <- htmlDiv(
   style = list('display' = 'flex','align-items' = 'center', 'flex-direction' = 'column','margin'=5,'border-style'='double')
 )
 
-
+### Diana's HTML Divs ----
 ### Header of the dashboard, consistent on every page
 header <- htmlDiv(
   list(
@@ -638,10 +638,23 @@ information <- htmlDiv(
 ### Toggles on both tags div 
 master_toggles <- htmlDiv(
   list(
-    reset_button,
-    htmlBr(),
-    viridis_button
-  ), style = list('margin' = 10, 'display' = 'flex', 'align-items' = 'flex-end', 'flex-direction' = 'column')
+    htmlDiv(
+      list(
+        viridis_button
+      ), style = list('display' = 'flex', 'justify-content' = 'flex-start')
+    ),
+    htmlDiv(
+      list(
+        htmlP("Select a theme for all plots:"),
+        theme_dd
+      ), style = list('display' = 'flex', 'justify-content' = 'center', 'flex-direction' = 'column', 'width' = '80%')
+    ),
+    htmlDiv(
+      list(
+        reset_button
+      ), style = list('display' = 'flex', 'justify-content' = 'flex-end', 'align-items' = 'flex-end')
+    )
+  ), style = list('display' = 'flex', 'justify-content' = 'space-between')
 )
 
 # tab1 sidebar div
@@ -778,8 +791,6 @@ tab1_bottom_half <- htmlDiv(
 tab1_page <- htmlDiv(
   list(
     master_toggles,
-    htmlP("Select a theme for all plots:"),
-    theme_dd,
     htmlBr(),
     tab1_top_half,
     tab1_bottom_half
