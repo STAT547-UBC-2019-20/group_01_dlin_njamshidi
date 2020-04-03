@@ -13,6 +13,7 @@
     1. [Milestone 3](#milestone-3)
     1. [Milestone 4](#milestone-4)
     1. [Milestone 5](#milestone-5)
+    1. [Milestone 6](#milestone-6)
 1. Final Report
     1. [HTML](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.html)
     1. [PDF](https://stat547-ubc-2019-20.github.io/group_01_dlin_njamshidi/milestone3.pdf)
@@ -211,6 +212,13 @@ To run the dashboard locally:
 ```
 Rscript app.R
 ```
+
+### Milestone 6
+For milestone 6, we have implemented the TA feedback from issue [#54](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/54).
+
+Our progress is outlined in issue [#52](https://github.com/STAT547-UBC-2019-20/group_01_dlin_njamshidi/issues/52).
+
+<!--To access our dashboard deployed on Heroku, click [here]()!-->
 
 ## Dashboard Proposal
 
