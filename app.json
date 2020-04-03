@@ -1,6 +1,6 @@
 {
-  "name": "Testing deployment of DashR app to heroku",
-  "description": "This app does one little thing, and does it well.",
+  "name": "Factors Affecting Medical Expenses",
+  "description": "What factors affect medical expenses?",
   "keywords": [
     "heroku",
     "R deployment",
