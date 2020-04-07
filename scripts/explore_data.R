@@ -13,6 +13,7 @@ suppressMessages(library(corrplot))
 suppressMessages(library(glue))
 suppressMessages(library(scales))
 suppressMessages(library(here))
+suppressMessages(library(reshape2))
 
 # Read in the command line arguments
 option <- docopt(doc)
@@ -71,15 +72,50 @@ main <- function(processed_data, image_path,data_path) {
   costs_correlations <- round(costs_correlations,2)
   saveRDS(costs_correlations, paste0(here(data_path), "/correlation.rds"))
   # save and plot the corrplot
-  png(filename = paste(image_path,"corrplot.png",sep = "/"))
-  corrplot(costs_correlations,
-           type = "upper",
-           method = "color",
-           tl.srt=45,
-           addCoef.col = "black",
-           diag = FALSE)
-  print("Saving image")
-  dev.off()
+  # png(filename = paste(image_path,"corrplot.png",sep = "/"))
+  # corrplot(costs_correlations,
+  #          type = "upper",
+  #          method = "color",
+  #          tl.srt=45,
+  #          addCoef.col = "black",
+  #          diag = FALSE)
+  # print("Saving image")
+  # dev.off()
+  costs_correlations[lower.tri(costs_correlations)]<- NA
+  melted_costs <- melt(costs_correlations, na.rm = TRUE)
+  melted_costs <- filter(melted_costs, Var1 != Var2)
+  melted_costs %>%
+    ggplot(aes(Var2, Var1, fill = value)) +
+    geom_tile(color = "white") +
+    # theme_minimal() +
+    theme(axis.text.x = element_text(
+      angle = 45,
+      vjust = 1,
+      size = 12,
+      hjust = 1
+    ),
+    axis.text.y = element_text(size =12)) +
+    xlab("") +
+    ylab("") +
+    ggtitle("Correlation Between All Variables")+ 
+    scale_fill_gradient2(
+      low = "blue",
+      high = "red",
+      mid = "white",
+      midpoint = 0,
+      limit = c(-1, 1),
+      space = "Lab",
+      name = ""
+    ) + geom_text(aes(Var2, Var1, label = value), color = "black", size = 4)+
+    do.call(paste0("theme","_minimal"),list()) + theme(axis.text.x = element_text(
+      angle = 45,
+      vjust = 1,
+      size = 12,
+      hjust = 1
+    ),
+    axis.text.y = element_text(size =12), text = element_text(family = "HelveticaNeue"))+
+    ggsave(filename = paste(here(image_path),"corrplot.png",sep = "/"), device = "png")
+  
   
   # filter the processed_data for the ones without dummy variables to resemble 'raw data'
   raw_data_in <- processed_data_in %>%

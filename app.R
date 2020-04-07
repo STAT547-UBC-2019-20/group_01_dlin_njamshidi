@@ -831,19 +831,19 @@ app$layout(
 ## App Callbacks ----
 
 ### Callback to reset the related components
-app$callback(
-  output = list(output(id = 'layout_button', property='value'),
-                output(id = 'diagonal_toggle', property = 'on'),
-                output(id = 'viridis_button', property='on'),
-                output(id = 'label_toggle', property='on'),
-                output(id = 'themes', property='value'),
-                input(id = 'x_dd', property = 'value'),
-                input(id = 'feat_dd', property='value')),
-  params = list(input(id = 'reset_button', property = 'n_clicks')),
-  function(clicks) {
-    list("lower",FALSE,FALSE,TRUE,"_minimal","age_range","smoker")
-  }
-)
+# app$callback(
+#   output = list(output(id = 'layout_button', property='value'),
+#                 output(id = 'diagonal_toggle', property = 'on'),
+#                 output(id = 'viridis_button', property='on'),
+#                 output(id = 'label_toggle', property='on'),
+#                 output(id = 'themes', property='value'),
+#                 output(id = 'x_dd', property = 'value'),
+#                 output(id = 'feat_dd', property='value')),
+#   params = list(input(id = 'reset_button', property = 'n_clicks')),
+#   function(clicks) {
+#     list("lower",FALSE,FALSE,TRUE,"_minimal","age_range","smoker")
+#   }
+# )
 
 
 ### Callback to update the bar plot
@@ -898,7 +898,6 @@ app$callback(
     }
   }
 )
-
 
 app$callback(
   output(id = "viridis_button", property = "on"),
