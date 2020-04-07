@@ -1,5 +1,7 @@
 # Group 1: Factors Affecting Medical Expenses
 
+**QUICK LINK:** To see our deployed dashboard on Heroku, please click [here](https://stat547-group01-2020.herokuapp.com)!
+
 ## Table of Contents
 1. [Introduction](#introduction)
 1. [Usage](#usage)
@@ -230,6 +232,9 @@ On the second page, at the top of the page the user can choose the factors they 
 Ron is taking The fundamentals of Public Health Care as an undergraduate course. As an assignment, he needs to estimate the medical expenses his group of classmates has. He should send a form to his classmates asking for information; however, he is not sure what information to request from them. He logs in the Medical Expenses app to learn more about the factors affecting medical expenses. He can look at the visualizations on the exploration page and grasp an idea of what the dataset looks like. He can learn about the correlation between the factors included in the dataset. He can look at the distribution of the dataset among various variables on this page. He might want to check if different sex would have visually distinctive clusters in the BMI vs. charges graph. He can look at the bar charts to see what type of distribution do the factors follow in this dataset. Next, he can go to the linear regression page and play with the factors to find which combination of factors can better explain the charges. In the end, he can put his own information, to check if the regression model based on the available variables can estimate his expenses well or not. He might decide to include some of the variables in this dataset and add other variables such as occupation, health status of parents and etc. in his form. 
 
 ### Sketch
+
+If the images are not loading, please refresh the page.
+
 ![](images/sketch_page1.png)
 ***
 ![](images/sketch_page2.png)
